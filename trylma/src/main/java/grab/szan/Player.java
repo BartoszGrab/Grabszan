@@ -22,6 +22,12 @@ public class Player implements Runnable{
         this.socket = socket;
     }
 
+    public void sendMessage(String message) {
+        out.println(message);
+        out.flush();
+    }
+    
+
     @Override
     public void run() {
         try {
