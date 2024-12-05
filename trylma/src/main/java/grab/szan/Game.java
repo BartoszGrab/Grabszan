@@ -33,4 +33,9 @@ public class Game {
         }
         return false;
     }
+
+    public List<Player> getPlayers() {
+        return players;
+    }
+    
 }
