@@ -36,7 +36,7 @@ public class Player implements Runnable{
 
                 String[] args = command.split(" ");
 
-                CommandHandler.getCommandHandler().getCommand(args[0]).execute(args);
+                CommandHandler.getCommandHandler().getCommand(args[0]).execute(args, this);
             }
         } catch(IOException e){
             e.printStackTrace();
