@@ -29,20 +29,9 @@ public class JoinGameCommand implements Command {
         // Próba dodania gracza do gry
         if (game.addPlayer(player)) {
             player.sendMessage("Success: You have joined the game '" + roomName + "'.");
-            broadcastToGame(game, "Player joined the game."); // Informacja dla pozostałych graczy
+            game.broadcast("Player joined the game."); // Informacja dla pozostałych graczy
         } else {
             player.sendMessage("Error: Game '" + roomName + "' is full.");
-        }
-    }
-
-    /**
-     * Metoda do wysyłania wiadomości do wszystkich graczy w grze.
-     * @param game Obiekt gry, do której należy wysłać wiadomość.
-     * @param message Treść wiadomości.
-     */
-    private void broadcastToGame(Game game, String message) {
-        for (Player p : game.getPlayers()) {
-            p.sendMessage(message);
         }
     }
 }

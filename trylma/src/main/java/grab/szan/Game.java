@@ -38,4 +38,10 @@ public class Game {
         return players;
     }
     
+    public void broadcast(String message) {
+        for (Player player : players) {
+            player.sendMessage(message);
+        }
+    }
+    
 }
