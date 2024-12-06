@@ -33,4 +33,15 @@ public class Game {
         }
         return false;
     }
+
+    public List<Player> getPlayers() {
+        return players;
+    }
+    
+    public void broadcast(String message) {
+        for (Player player : players) {
+            player.sendMessage(message);
+        }
+    }
+    
 }

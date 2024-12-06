@@ -81,5 +81,11 @@ public class Server {
         
         games.put(game.getRoom(), game);
         return true;
+    } 
+
+    public Game getGame(String room) {
+        return games.get(room);
     }
+    
+    
 }
