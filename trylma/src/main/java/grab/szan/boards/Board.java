@@ -33,4 +33,17 @@ public abstract class Board {
             System.out.println();
         }
     }
+
+    public Field[][] getFields() {
+        return fields;
+    }
+
+    public int getRows(){
+        return rows;
+    }
+
+    public int getCols(){
+        return cols;
+    }
+    
 }
