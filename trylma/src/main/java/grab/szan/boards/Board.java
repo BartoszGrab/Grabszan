@@ -38,6 +38,10 @@ public abstract class Board {
         return fields;
     }
 
+    public Field getField(int row, int col){
+        return fields[row][col];
+    }
+
     public int getRows(){
         return rows;
     }
