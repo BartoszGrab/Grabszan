@@ -13,12 +13,14 @@ public class Client {
     private Socket socket;
     private PrintWriter out;
     private BufferedReader in;
+    private volatile boolean waitingForInput = true;
 
     public Client(String host, int port) {
         this.host = host;
         this.port = port;
     }
 
+    // Metoda startująca klienta
     public void start() {
         try {
             socket = new Socket(host, port);
@@ -35,39 +37,53 @@ public class Client {
         }
     }
 
+    // Nasłuchuje wiadomości od serwera
     private void listenForMessages() {
         try {
             String message;
             while ((message = in.readLine()) != null) {
+                // Usuwa znak zachęty, jeśli klient czeka na wejście
+                if (waitingForInput) {
+                    System.out.print("\r"); // Usuwa '>' z linii
+                }
                 System.out.println("Server: " + message);
+                
+                // Wypisuje ponownie znak zachęty, jeśli klient czeka na wejście
+                if (waitingForInput) {
+                    System.out.print("> ");
+                }
             }
         } catch (IOException e) {
             System.err.println("Connection lost: " + e.getMessage());
         }
     }
 
+    // Obsługuje wejście użytkownika
     private void handleUserInput() {
         try (Scanner scanner = new Scanner(System.in)) {
-            System.out.println("Type 'help' for more iformation");
+            System.out.println("Type 'help' for more information");
 
             while (true) {
+                waitingForInput = true;
                 System.out.print("> ");
                 String input = scanner.nextLine();
+                waitingForInput = false;
+
                 if ("exit".equalsIgnoreCase(input)) {
                     break;
-                }
-                else if ("help".equalsIgnoreCase(input)) {
+                } else if ("help".equalsIgnoreCase(input)) {
                     System.out.println("Type 'exit' to close the connection.");
                     System.out.println("Type 'move <start> <end>' to make a move.");
                     System.out.println("Type 'join <game_name>' to join a game.");
                     System.out.println("Type 'create <game_name> <num_of_players>' to create a game.");
                     continue;
                 }
-                out.println(input);
+                out.println(input); // Wysyła wiadomość do serwera
             }
         }
     }
 
+    // Zamyka połączenie z serwerem
     private void closeConnections() {
         try {
             if (socket != null) socket.close();
