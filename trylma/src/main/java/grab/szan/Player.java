@@ -9,14 +9,18 @@ import java.net.Socket;
 import grab.szan.commands.CommandHandler;
 
 public class Player implements Runnable{
-    private char mark;
+    private int id;
     private Socket socket;
     private BufferedReader in;
     private PrintWriter out;
     private Game activeGame;
 
-    public char getMark(){
-        return mark;
+    public int getId(){
+        return id;
+    }
+
+    public void setId(int id){
+        this.id = id;
     }
 
     public Player(Socket socket){

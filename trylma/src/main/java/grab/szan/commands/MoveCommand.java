@@ -18,6 +18,12 @@ public class MoveCommand implements Command{
             return;
         }
 
+        //sprawdzenie czy gracz moze wykonac ruch
+        if(!player.getActiveGame().getCurrentPlayer().equals(player)){
+            player.sendMessage("it's not your turn!");
+            return;
+        }
+
         try{
             //pozycja poczatkowa
             int startRow = Integer.parseInt(args[1]);
@@ -28,8 +34,10 @@ public class MoveCommand implements Command{
             int endCol = Integer.parseInt(args[4]);
 
             //przesuwanie gracza
-            player.getActiveGame().move(startRow, startCol, endRow, endCol, player);
-            player.sendMessage("player moved succesfully");
+            if(player.getActiveGame().moveCurrentPlayer(startRow, startCol, endRow, endCol)){
+                player.sendMessage("player moved succesfully");
+                player.getActiveGame().broadcast("current board state:\n" + player.getActiveGame().getBoard().displayBoard());
+            }
 
         }catch(NumberFormatException e){
             player.sendMessage("arguments should be integers");

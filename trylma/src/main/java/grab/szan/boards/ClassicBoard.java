@@ -6,9 +6,12 @@ import grab.szan.Field;
  * klasa przedstawiajaca klasyczną plansze do gry w trylme
  */
 public class ClassicBoard extends Board{
+
     public ClassicBoard(){
         super(17, 25);
+        dirs = new int[][]{{-1, -1}, {-1, 1}, {0, -2}, {0, 2}, {1, -1}, {1, 1}};
     }
+
 
     @Override
     public void generateBoard(){

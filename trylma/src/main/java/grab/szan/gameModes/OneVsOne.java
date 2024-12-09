@@ -37,7 +37,8 @@ public class OneVsOne implements GameMode {
 
         for(int i = 0; i < 4; i++){
             for(int j = 12-i; j <= 12+i; j += 2){
-                if(classicBoard.getField(i, j).getPlayer().equals(player2)){
+                Player cur = classicBoard.getField(i, j).getPlayer();
+                if(cur != null && cur.equals(player2)){
                     count++;
                 }
             }
@@ -48,7 +49,8 @@ public class OneVsOne implements GameMode {
 
         for(int i = 13; i <= 17; i++){
             for(int j = i-4; j <= 28-i; j += 2){
-                if(classicBoard.getField(i, j).getPlayer().equals(player1)){
+                Player cur = classicBoard.getField(i, j).getPlayer();
+                if(cur != null && cur.equals(player1)){
                     count++;
                 }
             }

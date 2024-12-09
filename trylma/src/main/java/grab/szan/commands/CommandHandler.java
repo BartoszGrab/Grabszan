@@ -14,6 +14,8 @@ public class CommandHandler {
         commandMap = new HashMap<>();
         commandMap.put("create",  new CreateGameCommand());
         commandMap.put("join", new JoinGameCommand());
+        commandMap.put("move", new MoveCommand());
+        commandMap.put("start", new StartGameCommand());
     }
 
     public static CommandHandler getCommandHandler(){

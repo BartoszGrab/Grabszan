@@ -8,6 +8,7 @@ import grab.szan.Field;
 public abstract class Board {
     protected Field[][] fields;
     protected int rows, cols;
+    protected int[][] dirs;
 
     public Board(int rows, int cols){
         this.rows = rows;
@@ -15,23 +16,27 @@ public abstract class Board {
         fields = new Field[rows][cols];
     }
 
-    public void generateBoard(){
-
+    public int[][] getAvailableDirections(){
+        return dirs;
     }
 
-    public void displayBoard(){
+    public abstract void generateBoard();
+
+    public String displayBoard(){
+        StringBuilder builder = new StringBuilder();
         for(int i = 0; i<rows; i++){
             for(int j = 0; j<cols; j++){
                 if(fields[i][j]==null){
-                    System.out.print(" ");
+                    builder.append(" ");
                 }else if(fields[i][j].getPlayer() != null){
-                    System.out.print(fields[i][j].getPlayer().getMark());
+                    builder.append(""+fields[i][j].getPlayer().getId());
                 }else{
-                    System.out.print("*");
+                    builder.append("*");
                 }
             }
-            System.out.println();
+            builder.append("\n");
         }
+        return builder.toString();
     }
 
     public Field[][] getFields() {
