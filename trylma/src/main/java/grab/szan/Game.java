@@ -43,5 +43,20 @@ public class Game {
             player.sendMessage(message);
         }
     }
+
+    public void move(int startRow, int startCol, int endRow, int endCol, Player player){
+        if(!isValidMove(startRow, startCol, endRow, endCol, player)){
+            player.sendMessage("invalid move!");
+            return;
+        }
+
+        board.getField(endRow, endCol).setPlayer(player);
+        board.getField(startRow, startCol).setPlayer(null);
+    }
+
+    private boolean isValidMove(int startRow, int startCol, int endRow, int endCol, Player player){
+        //TODO zaimplementowac sprawdzanie poprawnosci ruchu
+        return false;
+    }
     
 }

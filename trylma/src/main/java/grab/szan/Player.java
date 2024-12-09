@@ -13,6 +13,7 @@ public class Player implements Runnable{
     private Socket socket;
     private BufferedReader in;
     private PrintWriter out;
+    private Game activeGame;
 
     public char getMark(){
         return mark;
@@ -27,6 +28,13 @@ public class Player implements Runnable{
         out.flush();
     }
     
+    public void setActiveGame(Game game){
+        activeGame = game;
+    }
+
+    public Game getActiveGame(){
+        return activeGame;
+    }
 
     @Override
     public void run() {
@@ -42,7 +50,12 @@ public class Player implements Runnable{
 
                 String[] args = command.split(" ");
 
-                CommandHandler.getCommandHandler().getCommand(args[0]).execute(args, this);
+                try{
+                    CommandHandler.getCommandHandler().getCommand(args[0]).execute(args, this);
+                } catch(IllegalArgumentException exception){
+                    this.sendMessage(exception.getMessage());
+                }
+                
             }
         } catch(IOException e){
             e.printStackTrace();

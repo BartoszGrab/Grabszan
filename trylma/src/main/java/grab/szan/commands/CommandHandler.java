@@ -40,6 +40,9 @@ public class CommandHandler {
 
 
     public Command getCommand(String commandLine){
+        if(!commandMap.containsKey(commandLine)){
+            throw new IllegalArgumentException("invalid command line");
+        }
         return commandMap.get(commandLine);
     }
 
