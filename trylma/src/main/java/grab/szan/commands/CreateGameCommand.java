@@ -54,8 +54,10 @@ public class CreateGameCommand implements Command {
 
         // Dodajemy inicjującego gracza do gry
         boolean playerAdded = game.addPlayer(player);
+
         if (playerAdded) {
             player.sendMessage("Utworzono nową grę: " + gameName + " z maksymalną liczbą graczy: " + maxPlayers);
+            player.setActiveGame(game);
         } else {
             player.sendMessage("Nie udało się dołączyć do nowo utworzonej gry.");
         }

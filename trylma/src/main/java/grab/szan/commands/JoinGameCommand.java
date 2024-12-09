@@ -30,6 +30,7 @@ public class JoinGameCommand implements Command {
         if (game.addPlayer(player)) {
             player.sendMessage("Success: You have joined the game '" + roomName + "'.");
             game.broadcast("Player joined the game."); // Informacja dla pozostałych graczy
+            player.setActiveGame(game);
         } else {
             player.sendMessage("Error: Game '" + roomName + "' is full.");
         }
