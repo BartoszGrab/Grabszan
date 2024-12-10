@@ -23,7 +23,10 @@ Both components work together to create a fully functional Trylma gaming platfor
 
 ## Installation
 
-To install and run this project, follow these steps:
+### Prerequisites
+Make sure you have **Java 21** or a later version installed on your system. The project requires features available only in Java 21 or higher.
+
+### Steps
 
 1. To start using the **Grabszan** project, you need to download the necessary files from the [Releases](https://github.com/BartoszGrab/Grabszan.git) section on GitHub.:
     ### Required Files
