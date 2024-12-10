@@ -6,6 +6,7 @@ Welcome to the Grabszan project! This project is developed using Java.
 
 - [Introduction](#introduction)
 - [Installation](#installation)
+- [Authors](#Authors)
 
 ## Introduction
 
@@ -41,3 +42,7 @@ To install and run this project, follow these steps:
     ```sh
     java -jar client-app-1.0.jar <host> <port>
     ```
+
+## Authors
+- **Bartosz Grabiński**
+- **Michał Szandarowski**
