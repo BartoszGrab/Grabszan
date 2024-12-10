@@ -87,5 +87,8 @@ public class Server {
         return games.get(room);
     }
     
+    public static void resetInstance(){
+        server_instance = null;
+    }
     
 }
