@@ -10,7 +10,7 @@ import grab.szan.boards.Board;
 import grab.szan.gameModes.GameMode;
 
 public class Game {
-    /*room to nazwa dla danej rozgrywki */
+    //room to nazwa pokoju dla danej rozgrywki
     private String room;
     private int maxPlayers;
     private List<Player> players;
@@ -32,13 +32,21 @@ public class Game {
         return board;
     }
 
-    /*
-     * zwraca gracza który może wykonać ruch
+    /**
+     * Zwraca gracza który może wykonać ruch
+     * @return gracz który może wykonać ruch
      */
     public Player getCurrentPlayer(){
         return players.get(currentIndex);
     }
 
+    /**
+     * inicjuje obiekt Game
+     * @param room - nazwa pokoju
+     * @param maxPlayers - ilość graczy
+     * @param mode - tryb gry
+     * @param board - plansza
+     */
     public Game(String room, int maxPlayers, GameMode mode, Board board){
         players = new ArrayList<>();
         this.room = room;
@@ -49,6 +57,11 @@ public class Game {
         random = new Random();
     }
 
+    /**
+     * metoda odpowiedzialna za dodawanie gracza do rozgrywki
+     * @param player - gracz który ma być dodany
+     * @return true jeśli pomyślnie dodano gracza, false w przeciwnym wypadku
+     */
     public boolean addPlayer(Player player){
         if(players.size() < maxPlayers){
             players.add(player);
@@ -59,16 +72,27 @@ public class Game {
         return false;
     }
 
+    /**
+     * metoda zwracająca listę graczy obecnych w danej rozgrywce
+     * @return obiekt typu List<Player> zawierający obecnych graczy
+     */
     public List<Player> getPlayers() {
         return players;
     }
     
+    /**
+     * 
+     * @param message
+     */
     public void broadcast(String message) {
         for (Player player : players) {
             player.sendMessage(message);
         }
     }
 
+    /**
+     * metoda do rozpoczynania rozgrywki
+     */
     public void startGame(){
         //sprawdzenie czy mamy wystarczająco graczy
         if(players.size()<maxPlayers){
@@ -85,6 +109,14 @@ public class Game {
         broadcast("current board state:\n" + board.displayBoard());
     }
 
+    /**
+     * metoda do wykonywania ruchu przez gracza który aktualnie może wykonać ruch
+     * @param startRow - rząd pozycji startowej
+     * @param startCol - kolumna pozycji startowej
+     * @param endRow - rząd destynacji
+     * @param endCol - kolumna destynacji
+     * @return true jeśli ruch jest możliwy do wykonania, false w przeciwnym przypadku
+     */
     public boolean moveCurrentPlayer(int startRow, int startCol, int endRow, int endCol){
         //gracz który ma teraz ruch
         Player player = players.get(currentIndex);
@@ -114,6 +146,15 @@ public class Game {
         return true;
     }
 
+    /**
+     * metoda do sprawdzania poprawności ruchu
+     * @param startRow 
+     * @param startCol
+     * @param endRow
+     * @param endCol
+     * @param player
+     * @return true jeśli ruch jest poprawny, false w przeciwnym przypadku
+     */
     private boolean isValidMove(int startRow, int startCol, int endRow, int endCol, Player player){
         //sprawdzanie czy podane argumenty mieszczą się w zakresie tablicy 
         if (startRow < 0 || startRow >= board.getRows() || 
@@ -146,6 +187,14 @@ public class Game {
         return isReachable(startRow, startCol, endRow, endCol);
     }
     
+    /**
+     * metoda do sprawdzania czy da się dojśc z pozycji startowej do destynacji
+     * @param startRow
+     * @param startCol
+     * @param endRow
+     * @param endCol
+     * @return true jeśli da się dojść do destynacji, false w przeciwnym przypadku
+     */
     private boolean isReachable(int startRow, int startCol, int endRow, int endCol){
         //najpierw musimy osobno sprawdzic wszystkie miejsca wokol pozycji startowej
         for(int[] nextPos: board.getAvailableDirections()){
