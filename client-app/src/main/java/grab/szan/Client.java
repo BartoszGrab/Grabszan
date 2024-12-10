@@ -72,10 +72,11 @@ public class Client {
                 if ("exit".equalsIgnoreCase(input)) {
                     break;
                 } else if ("help".equalsIgnoreCase(input)) {
-                    System.out.println("Type 'exit' to close the connection.");
-                    System.out.println("Type 'move <start> <end>' to make a move.");
-                    System.out.println("Type 'join <game_name>' to join a game.");
                     System.out.println("Type 'create <game_name> <num_of_players>' to create a game.");
+                    System.out.println("Type 'join <game_name>' to join a game.");
+                    System.out.println("Type 'start' to start a game.");
+                    System.out.println("Type 'move <start_row> <start_col> <end_row> <end_col>' to move your pawn.");
+                    System.out.println("Type 'exit' to close the connection.");
                     continue;
                 }
                 out.println(input); // Wysyła wiadomość do serwera
