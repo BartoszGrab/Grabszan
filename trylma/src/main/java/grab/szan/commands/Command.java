@@ -6,9 +6,10 @@ import grab.szan.Player;
  * interfejs komendy
  */
 public interface Command{
-    /*
-     * metoda execute do wykonywania komendy
-     * @param args argumenty dla komendy
-     */
+  /**
+   * Metoda wykonująca komende
+   * @param args - lista parametrów potrzebnych do wykonania komendy
+   * @param player - klient który wysłał komende
+   */
     public void execute(String[] args, Player player);
 }
