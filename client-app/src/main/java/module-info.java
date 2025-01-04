@@ -1,4 +1,4 @@
-module michal.projects {
+module grab.szan {
     requires javafx.controls;
     requires javafx.graphics;
     requires javafx.base;
