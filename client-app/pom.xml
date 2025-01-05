@@ -15,7 +15,13 @@
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-
+    <dependencies>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <version>13</version>
+        </dependency>
+    </dependencies>
     <build>
     <plugins>
         <!-- Maven Compiler Plugin -->
@@ -34,14 +40,21 @@
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-jar-plugin</artifactId>
             <version>3.4.1</version>
-            <configuration>
-                <archive>
-                    <manifest>
-                        <!-- Wskazujemy klasę główną -->
-                        <mainClass>grab.szan.Main</mainClass>
-                    </manifest>
-                </archive>
-            </configuration>
+        </plugin>
+        <plugin>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-maven-plugin</artifactId>
+            <version>0.0.6</version>
+            <executions>
+                <execution>
+                    <!-- Default configuration for running -->
+                    <!-- Usage: mvn clean javafx:run -->
+                    <id>default-cli</id>
+                    <configuration>
+                        <mainClass>grab.szan.App</mainClass>
+                    </configuration>
+                </execution>
+            </executions>
         </plugin>
     </plugins>
 </build>
