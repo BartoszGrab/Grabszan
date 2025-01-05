@@ -18,7 +18,7 @@
             <Font name="Arial Bold" size="24.0" />
          </font>
       </Button>
-      <Button minHeight="50.0" minWidth="200.0" mnemonicParsing="false" onAction="#onJoinGame" style="-fx-background-color: BDB76B;" text="Join game">
+      <Button minHeight="50.0" minWidth="200.0" mnemonicParsing="false" onAction="#onJoinGame" style="-fx-background-color: #BDB76B;" text="Join game">
          <font>
             <Font name="Arial Bold" size="24.0" />
          </font>
