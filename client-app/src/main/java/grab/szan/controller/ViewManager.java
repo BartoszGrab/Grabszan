@@ -40,4 +40,12 @@ public class ViewManager {
         primaryStage.setScene(scene);
         primaryStage.show();
     }
+
+    public static void showJoinGameView() throws IOException {
+        FXMLLoader loader = new FXMLLoader(ViewManager.class.getResource("/grab/szan/view/JoinGameView.fxml"));
+        Scene scene = new Scene(loader.load());
+        primaryStage.setTitle("Join Game");
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
 }

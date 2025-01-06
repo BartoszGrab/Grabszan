@@ -8,9 +8,6 @@ import javafx.scene.control.TextField;
 public class ConnectingServerController {
 
     @FXML
-    private TextField nicknameField;
-
-    @FXML
     private TextField hostField;
 
     @FXML
@@ -18,11 +15,10 @@ public class ConnectingServerController {
 
     @FXML
     private void onConnect() {
-        String nickname = nicknameField.getText();
         String host = hostField.getText();
         String port = portField.getText();
 
-        if (nickname.isEmpty() || host.isEmpty() || port.isEmpty()) {
+        if (host.isEmpty() || port.isEmpty()) {
             showAlert("Error", "All fields must be filled!");
             return;
         }
@@ -30,7 +26,7 @@ public class ConnectingServerController {
         try {
             int portNumber = Integer.parseInt(port);
 
-            boolean connectionSuccess = connectToServer(host, portNumber, nickname);
+            boolean connectionSuccess = connectToServer(host, portNumber);
 
             if (connectionSuccess) {
                 ViewManager.showMenuView();
@@ -45,8 +41,8 @@ public class ConnectingServerController {
         }
     }
 
-    private boolean connectToServer(String host, int port, String nickname) {
-        Client client = new Client(host, port, nickname);
+    private boolean connectToServer(String host, int port) {
+        Client client = new Client(host, port);
         return client.start();
     }
 
