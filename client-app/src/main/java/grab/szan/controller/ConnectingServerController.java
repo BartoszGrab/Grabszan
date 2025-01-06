@@ -1,7 +1,6 @@
 package grab.szan.controller;
 
 import grab.szan.Client;
-import grab.szan.main.App; 
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
@@ -34,7 +33,7 @@ public class ConnectingServerController {
             boolean connectionSuccess = connectToServer(host, portNumber, nickname);
 
             if (connectionSuccess) {
-                App.showMenuView(); // idk why vscode is not recognizing this method but its actually working
+                ViewManager.showMenuView();
                 
             } else {
                 showAlert("Error", "Failed to connect to the server!");
