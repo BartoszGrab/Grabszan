@@ -16,6 +16,7 @@ public class CommandHandler {
         commandMap.put("join", new JoinGameCommand());
         commandMap.put("move", new MoveCommand());
         commandMap.put("start", new StartGameCommand());
+        commandMap.put("nick", new SetNickCommand());
     }
 
     /**
