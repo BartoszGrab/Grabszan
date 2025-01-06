@@ -8,12 +8,11 @@ public class MenuController {
 
     @FXML
     private void onCreateGame() {
-        //TODO: powinien być wywołany widok tworzenia gry
-        Alert alert = new Alert(AlertType.INFORMATION);
-        alert.setTitle("Create Game");
-        alert.setHeaderText(null);
-        alert.setContentText("Creating a new game...");
-        alert.showAndWait();
+        try {
+            ViewManager.showCreateGameView();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
