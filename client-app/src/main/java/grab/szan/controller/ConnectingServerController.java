@@ -1,5 +1,6 @@
 package grab.szan.controller;
 
+import grab.szan.Client;
 import grab.szan.main.App; 
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -46,8 +47,8 @@ public class ConnectingServerController {
     }
 
     private boolean connectToServer(String host, int port, String nickname) {
-        // TODO: logika nawiązywania połączenia z serwerem
-        return true; // Zwracamy true, aby zasymulować sukces
+        Client client = new Client(host, port, nickname);
+        return client.start();
     }
 
     // Metoda pomocnicza do wyświetlania alertów

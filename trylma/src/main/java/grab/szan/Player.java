@@ -14,6 +14,15 @@ public class Player implements Runnable{
     private BufferedReader in;
     private PrintWriter out;
     private Game activeGame;
+    private String nickname;
+
+    public String getNickname(){
+        return nickname;
+    }
+
+    public void setNickname(String nickname){
+        this.nickname = nickname;
+    }
 
     public int getId(){
         return id;
