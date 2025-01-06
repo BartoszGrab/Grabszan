@@ -15,6 +15,8 @@ public class CreateGameController {
     @FXML 
     private ChoiceBox<Integer> noOfPlayersChoiceBox;
 
+    @FXML
+    private TextField nicknameTextField;
 
     @FXML
     private void initialize() {
@@ -29,15 +31,16 @@ public class CreateGameController {
     private void onCreate() {
         String gameName = gameNameTextField.getText();
         String gameMode = gameModeChoiceBox.getValue();
+        String nickname = nicknameTextField.getText();
         int noOfPlayers = noOfPlayersChoiceBox.getValue();
 
-        if (gameName.isEmpty() || gameMode == null || noOfPlayers == 0) {
+        if (gameName.isEmpty() || gameMode == null || noOfPlayers == 0 || nickname.isEmpty()) {
             showAlert("Error", "All fields must be filled!");
             return;
         }
 
         try {
-            boolean gameCreationSuccess = createGame(gameName, gameMode, noOfPlayers);
+            boolean gameCreationSuccess = createGame(gameName, gameMode, noOfPlayers, nickname);
 
             if (gameCreationSuccess) {
                 //TODO: powinien być wywołany widok pokoju gry
@@ -51,7 +54,7 @@ public class CreateGameController {
 
     }
 
-    private boolean createGame(String gameName, String gameMode, int noOfPlayers) {
+    private boolean createGame(String gameName, String gameMode, int noOfPlayers, String nickname) {
         // TODO: do zaimplementowania wysyłanie zapytania do serwera o utworzenie nowej gry
 
         return true;

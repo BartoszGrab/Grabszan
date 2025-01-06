@@ -12,12 +12,10 @@ public class Client {
     private Socket socket;
     private PrintWriter out;
     private BufferedReader in;
-    private String nickname;
 
-    public Client(String host, int port, String nickname) {
+    public Client(String host, int port) {
         this.host = host;
         this.port = port;
-        this.nickname = nickname;
     }
 
     // Metoda startująca klienta
@@ -30,7 +28,6 @@ public class Client {
 
             new Thread(this::listenForMessages).start();
 
-            out.println("nick " + nickname);
         } catch (IOException e) {
             System.err.println("Connection error: " + e.getMessage());
             closeConnections();

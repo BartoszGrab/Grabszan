@@ -41,6 +41,16 @@
       </Label>
       <HBox alignment="CENTER" prefHeight="40.0" prefWidth="400.0" spacing="20.0">
          <children>
+            <Label text="Your nickname">
+               <font>
+                  <Font name="Arial" size="16.0" />
+               </font>
+            </Label>
+            <TextField fx:id="nicknameTextField1" promptText="nickname" />
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" prefHeight="40.0" prefWidth="400.0" spacing="20.0">
+         <children>
             <Label text="Game name">
                <font>
                   <Font name="Arial" size="16.0" />
