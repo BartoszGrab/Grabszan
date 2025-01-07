@@ -1,7 +1,7 @@
 package grab.szan.controller;
 
 import grab.szan.Client;
-import grab.szan.Utils;
+import grab.szan.utils.Utils;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 

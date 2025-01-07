@@ -1,4 +1,4 @@
-package grab.szan;
+package grab.szan.utils;
 
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
