@@ -29,6 +29,7 @@ public class JoinGameCommand implements Command {
         for(Player p: game.getPlayers()){
             if(p.getNickname().equals(args[2])){
                 player.sendMessage("display 'player with this nickname exists'");
+                return;
             }
         }
         // Próba dodania gracza do gry

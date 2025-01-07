@@ -6,6 +6,8 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
+import grab.szan.commands.CommandHandler;
+
 public class Client {
     private static Client instance;
     private final String host;
@@ -41,9 +43,18 @@ public class Client {
     // Nasłuchuje wiadomości od serwera
     private void listenForMessages() {
         try {
-            String message;
-            while ((message = in.readLine()) != null) {
-                System.out.println("Server: " + message);
+            while (true) {
+                String command = in.readLine();
+                if(command == null) break;
+
+                String[] args = command.split(" ");
+
+                try{
+                    CommandHandler.getCommandHandler().getCommand(args[0]).execute(args);
+                } catch(IllegalArgumentException e){
+                    Utils.showAlert("Error", e.getMessage());
+                }
+                
             }
         } catch (IOException e) {
             System.err.println("Connection lost: " + e.getMessage());

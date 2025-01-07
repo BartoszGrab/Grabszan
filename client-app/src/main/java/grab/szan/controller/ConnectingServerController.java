@@ -1,8 +1,8 @@
 package grab.szan.controller;
 
 import grab.szan.Client;
+import grab.szan.Utils;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 
 public class ConnectingServerController {
@@ -19,7 +19,7 @@ public class ConnectingServerController {
         String port = portField.getText();
 
         if (host.isEmpty() || port.isEmpty()) {
-            showAlert("Error", "All fields must be filled!");
+            Utils.showAlert("Error", "All fields must be filled!");
             return;
         }
 
@@ -32,12 +32,12 @@ public class ConnectingServerController {
                 ViewManager.showMenuView();
                 
             } else {
-                showAlert("Error", "Failed to connect to the server!");
+                Utils.showAlert("Error", "Failed to connect to the server!");
             }
         } catch (NumberFormatException e) {
-            showAlert("Error", "Port must be a valid number!");
+            Utils.showAlert("Error", "Port must be a valid number!");
         } catch (Exception e) {
-            showAlert("Error", "An unexpected error occurred: " + e.getMessage());
+            Utils.showAlert("Error", "An unexpected error occurred: " + e.getMessage());
         }
     }
 
@@ -45,12 +45,5 @@ public class ConnectingServerController {
         Client.createClient(host, port);
         return Client.getInstance().start();
     }
-    // Metoda pomocnicza do wyświetlania alertów
-    private void showAlert(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
+
 }
