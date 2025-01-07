@@ -8,7 +8,7 @@ public class ClassicBoardBuilder implements BoardBuilder {
     @Override
     public void generateBoard(Pane pane) {
         double radius = 15; 
-        double diameter = 2 * radius; 
+        double diameter = radius * 1.5; 
         double verticalSpacingFactor = 1.5; // Mnożnik odległości w pionie
     
         // Generowanie górnego trójkąta
