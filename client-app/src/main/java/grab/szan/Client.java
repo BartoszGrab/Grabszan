@@ -7,6 +7,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 
 import grab.szan.commands.CommandHandler;
+import grab.szan.utils.Utils;
 
 public class Client {
     private static Client instance;

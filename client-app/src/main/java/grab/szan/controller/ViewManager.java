@@ -48,4 +48,12 @@ public class ViewManager {
         primaryStage.setScene(scene);
         primaryStage.show();
     }
+
+    public static void showGameView() throws IOException {
+        FXMLLoader loader = new FXMLLoader(ViewManager.class.getResource("/grab/szan/view/GameView.fxml"));
+        Scene scene = new Scene(loader.load());
+        primaryStage.setTitle("Game");
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
 }
