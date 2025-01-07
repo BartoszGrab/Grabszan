@@ -11,8 +11,8 @@ public class CreateGameCommand implements Command {
 
     @Override
     public void execute(String[] args, Player player) {
-        if (args.length < 3) {
-            player.sendMessage("Użycie: create <nazwa_gry> <liczba_graczy>");
+        if (args.length < 5) {
+            player.sendMessage("Użycie: create <nazwa_gry> <liczba_graczy> <nickname> <gamemode>");
             return;
         }
 
@@ -29,7 +29,7 @@ public class CreateGameCommand implements Command {
 
         // Sprawdzamy, czy gra o takiej nazwie już istnieje
         if (server.gameExists(gameName)) {
-            player.sendMessage("Gra o takiej nazwie już istnieje.");
+            player.sendMessage("display 'Gra o takiej nazwie już istnieje.'");
             return;
         }
 
@@ -48,7 +48,7 @@ public class CreateGameCommand implements Command {
         // Dodajemy grę do serwera
         boolean added = server.addGame(game);
         if (!added) {
-            player.sendMessage("Nie udało się utworzyć gry. Spróbuj ponownie.");
+            player.sendMessage("display 'Nie udało się utworzyć gry. Spróbuj ponownie.'");
             return;
         }
 
@@ -56,10 +56,12 @@ public class CreateGameCommand implements Command {
         boolean playerAdded = game.addPlayer(player);
 
         if (playerAdded) {
-            player.sendMessage("Utworzono nową grę: " + gameName + " z maksymalną liczbą graczy: " + maxPlayers);
+            player.sendMessage("display 'Utworzono nową grę: " + gameName + " z maksymalną liczbą graczy: " + maxPlayers + "'");
             player.setActiveGame(game);
+            //ustawianie nicku gracza
+            player.setNickname(args[3]);
         } else {
-            player.sendMessage("Nie udało się dołączyć do nowo utworzonej gry.");
+            player.sendMessage("display 'Nie udało się dołączyć do nowo utworzonej gry.'");
         }
     }
 }

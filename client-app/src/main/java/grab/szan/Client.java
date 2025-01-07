@@ -7,13 +7,14 @@ import java.io.PrintWriter;
 import java.net.Socket;
 
 public class Client {
+    private static Client instance;
     private final String host;
     private final int port;
     private Socket socket;
     private PrintWriter out;
     private BufferedReader in;
 
-    public Client(String host, int port) {
+    private Client(String host, int port) {
         this.host = host;
         this.port = port;
     }
@@ -62,5 +63,18 @@ public class Client {
         } catch (IOException e) {
             System.err.println("Error closing connections: " + e.getMessage());
         }
+    }
+
+    public static void createClient(String host, int port){
+        if(instance == null){
+            instance = new Client(host, port);
+        }
+    }
+
+    public static Client getInstance() throws NullPointerException {
+        if(instance == null){
+            throw new NullPointerException("instance does not exist");
+        }
+        return instance;
     }
 }

@@ -42,10 +42,9 @@ public class ConnectingServerController {
     }
 
     private boolean connectToServer(String host, int port) {
-        Client client = new Client(host, port);
-        return client.start();
+        Client.createClient(host, port);
+        return Client.getInstance().start();
     }
-
     // Metoda pomocnicza do wyświetlania alertów
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
