@@ -10,7 +10,7 @@ public class JoinGameCommand implements Command {
     public void execute(String[] args, Player player) {
         // Sprawdzenie poprawności argumentów
         if (args.length < 3) {
-            player.sendMessage("Error: Game name and nickname is required to join.");
+            player.sendMessage("display Error Game name and nickname is required to join.");
             return;
         }
 
@@ -19,7 +19,7 @@ public class JoinGameCommand implements Command {
 
         // Sprawdzenie, czy gra o podanej nazwie istnieje
         if (!server.gameExists(roomName)) {
-            player.sendMessage("Error: Game room '" + roomName + "' does not exist.");
+            player.sendMessage("display Error Game room '" + roomName + "' does not exist.");
             return;
         }
 
@@ -28,18 +28,18 @@ public class JoinGameCommand implements Command {
 
         for(Player p: game.getPlayers()){
             if(p.getNickname().equals(args[2])){
-                player.sendMessage("display 'player with this nickname exists'");
+                player.sendMessage("display Error player with this nickname exists");
                 return;
             }
         }
         // Próba dodania gracza do gry
         if (game.addPlayer(player)) {
             player.sendMessage("Success: You have joined the game '" + roomName + "'.");
-            game.broadcast("Player joined the game."); // Informacja dla pozostałych graczy
+            game.broadcast("display Success Player joined the game."); // Informacja dla pozostałych graczy
             player.setActiveGame(game);
             player.setNickname(args[2]);
         } else {
-            player.sendMessage("Error: Game '" + roomName + "' is full.");
+            player.sendMessage("display Error Game '" + roomName + "' is full.");
         }
     }
 }

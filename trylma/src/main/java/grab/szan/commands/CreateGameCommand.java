@@ -21,7 +21,7 @@ public class CreateGameCommand implements Command {
         try {
             maxPlayers = Integer.parseInt(args[2]);
         } catch (NumberFormatException e) {
-            player.sendMessage("Liczba graczy musi być liczbą całkowitą.");
+            player.sendMessage("display Error Liczba graczy musi być liczbą całkowitą.");
             return;
         }
 
@@ -29,7 +29,7 @@ public class CreateGameCommand implements Command {
 
         // Sprawdzamy, czy gra o takiej nazwie już istnieje
         if (server.gameExists(gameName)) {
-            player.sendMessage("display 'Gra o takiej nazwie już istnieje.'");
+            player.sendMessage("display Error Gra o takiej nazwie już istnieje.");
             return;
         }
 
@@ -48,7 +48,7 @@ public class CreateGameCommand implements Command {
         // Dodajemy grę do serwera
         boolean added = server.addGame(game);
         if (!added) {
-            player.sendMessage("display 'Nie udało się utworzyć gry. Spróbuj ponownie.'");
+            player.sendMessage("display Error Nie udało się utworzyć gry. Spróbuj ponownie.");
             return;
         }
 
@@ -56,12 +56,12 @@ public class CreateGameCommand implements Command {
         boolean playerAdded = game.addPlayer(player);
 
         if (playerAdded) {
-            player.sendMessage("display 'Utworzono nową grę: " + gameName + " z maksymalną liczbą graczy: " + maxPlayers + "'");
+            player.sendMessage("display Success Utworzono nową grę: " + gameName + " z maksymalną liczbą graczy: " + maxPlayers);
             player.setActiveGame(game);
             //ustawianie nicku gracza
             player.setNickname(args[3]);
         } else {
-            player.sendMessage("display 'Nie udało się dołączyć do nowo utworzonej gry.'");
+            player.sendMessage("display Error Nie udało się dołączyć do nowo utworzonej gry.");
         }
     }
 }
