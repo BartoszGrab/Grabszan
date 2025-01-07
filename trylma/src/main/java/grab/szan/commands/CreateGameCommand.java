@@ -12,7 +12,7 @@ public class CreateGameCommand implements Command {
     @Override
     public void execute(String[] args, Player player) {
         if (args.length < 5) {
-            player.sendMessage("Użycie: create <nazwa_gry> <liczba_graczy> <nickname> <gamemode>");
+            player.sendMessage("Use: create <name> <num_of_players> <nickname> <gamemode>");
             return;
         }
 
@@ -21,7 +21,7 @@ public class CreateGameCommand implements Command {
         try {
             maxPlayers = Integer.parseInt(args[2]);
         } catch (NumberFormatException e) {
-            player.sendMessage("display Error Liczba graczy musi być liczbą całkowitą.");
+            player.sendMessage("display Error Number of players must be an integer number");
             return;
         }
 
@@ -29,7 +29,7 @@ public class CreateGameCommand implements Command {
 
         // Sprawdzamy, czy gra o takiej nazwie już istnieje
         if (server.gameExists(gameName)) {
-            player.sendMessage("display Error Gra o takiej nazwie już istnieje.");
+            player.sendMessage("display Error Game with this name already exists");
             return;
         }
 
@@ -48,7 +48,7 @@ public class CreateGameCommand implements Command {
         // Dodajemy grę do serwera
         boolean added = server.addGame(game);
         if (!added) {
-            player.sendMessage("display Error Nie udało się utworzyć gry. Spróbuj ponownie.");
+            player.sendMessage("display Error Couldn't create game, try again");
             return;
         }
 
@@ -56,12 +56,12 @@ public class CreateGameCommand implements Command {
         boolean playerAdded = game.addPlayer(player);
 
         if (playerAdded) {
-            player.sendMessage("display Success Utworzono nową grę: " + gameName + " z maksymalną liczbą graczy: " + maxPlayers);
+            player.sendMessage("display Success created new game: " + gameName + " with maximum number of players: " + maxPlayers);
             player.setActiveGame(game);
             //ustawianie nicku gracza
             player.setNickname(args[3]);
         } else {
-            player.sendMessage("display Error Nie udało się dołączyć do nowo utworzonej gry.");
+            player.sendMessage("display Error Couldn't join new game");
         }
     }
 }
