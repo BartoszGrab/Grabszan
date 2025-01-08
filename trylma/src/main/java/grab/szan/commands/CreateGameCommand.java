@@ -3,9 +3,9 @@ package grab.szan.commands;
 import grab.szan.Game;
 import grab.szan.Player;
 import grab.szan.Server;
-import grab.szan.boards.ClassicBoard;
+import grab.szan.boards.Board;
 import grab.szan.gameModes.GameMode;
-import grab.szan.gameModes.ClassicGameMode; // przykładowa plansza, do dostosowania
+import grab.szan.gameModes.GameModeHandler;
 
 public class CreateGameCommand implements Command {
 
@@ -33,13 +33,9 @@ public class CreateGameCommand implements Command {
             return;
         }
 
-
-        // TODO: Sprawdzenie, czy liczba graczy jest poprawna dla wybranego trybu gry
-        // TODO: switch case na tryby gry, sprawdzanie liczby graczy (?)
-
-        // Wybór trybu gry i planszy (przykładowe, do zmiany!!!)
-        GameMode mode = new ClassicGameMode(); 
-        ClassicBoard board = new ClassicBoard();
+        // Wybór trybu gry i planszy 
+        GameMode mode = GameModeHandler.getGameModeHandler().getGameMode(args[4]);
+        Board board = mode.getBoard();
         board.generateBoard(); // generujemy układ planszy
 
         // Tworzymy nową grę

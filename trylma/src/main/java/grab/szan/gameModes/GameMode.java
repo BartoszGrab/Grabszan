@@ -6,6 +6,8 @@ import grab.szan.Player;
 import grab.szan.boards.Board;
 
 public interface GameMode {
+    public Board getBoard();
+
     /**
      * Metoda odpowiedzialna za początkowe rozstawienie pionków na planszy
      * w zależności od trybu gry i liczby graczy.
@@ -13,7 +15,7 @@ public interface GameMode {
      * @param board - obiekt reprezentujący planszę do gry
      * @param players - lista graczy biorących udział w grze
      */
-    void initializePieces(Board board, List<Player> players);
+    public void initializePieces(Board board, List<Player> players);
 
     /**
      * Metoda sprawdzająca czy istnieje zwycięzca w danej chwili.
@@ -23,5 +25,5 @@ public interface GameMode {
      * @param players - lista graczy biorących udział w grze
      * @return Player który wygrał, lub null jeśli brak zwycięzcy
      */
-    Player getWinner(Board board, List<Player> players);
+    public Player getWinner(Board board, List<Player> players);
 }
