@@ -6,6 +6,16 @@ import grab.szan.Player;
 import grab.szan.boards.Board;
 
 public interface GameMode {
+
+    /**
+     * @return list of integers representing allowed number of players for certain game mode
+     */
+    public List<Integer> getAllowedNumOfPlayers();
+
+    /**
+     * method that returns a board specific for certain game mode
+     * @return new Board object
+     */
     public Board getBoard();
 
     /**

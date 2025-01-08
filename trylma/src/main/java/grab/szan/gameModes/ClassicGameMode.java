@@ -1,5 +1,7 @@
 package grab.szan.gameModes;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import grab.szan.Field;
@@ -18,6 +20,10 @@ public class ClassicGameMode implements GameMode {
     public void initializePieces(Board board, List<Player> players) {
         if(!(board instanceof ClassicBoard)){
             throw new IllegalArgumentException("wrong board type for this gamemode!");
+        }
+
+        if(!getAllowedNumOfPlayers().contains(players.size())){
+            throw new IllegalArgumentException("this game mode can only be played by 2, 3, 4, 5 or 6 players!");
         }
         
         for(int i = 0; i < players.size(); i++){
@@ -50,5 +56,10 @@ public class ClassicGameMode implements GameMode {
         }
 
         return null;
+    }
+
+    @Override
+    public List<Integer> getAllowedNumOfPlayers() {
+        return new ArrayList<>(Arrays.asList(2, 3, 4, 5, 6));
     }
 }

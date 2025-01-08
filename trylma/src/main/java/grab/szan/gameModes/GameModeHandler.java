@@ -10,6 +10,7 @@ public class GameModeHandler {
     private GameModeHandler(){
         gameModeMap = new HashMap<>();
         gameModeMap.put("Classic", new ClassicGameMode());
+        gameModeMap.put("Ying-Yang", new YingYangMode());
     }
 
     /**
