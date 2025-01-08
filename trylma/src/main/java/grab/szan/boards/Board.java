@@ -1,5 +1,8 @@
 package grab.szan.boards;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import grab.szan.Field;
 
 /*
@@ -9,11 +12,13 @@ public abstract class Board {
     protected Field[][] fields;
     protected int rows, cols;
     protected int[][] dirs;
+    protected List<List<Field>> corners;
 
     public Board(int rows, int cols){
         this.rows = rows;
         this.cols = cols;
         fields = new Field[rows][cols];
+        corners = new ArrayList<>();
     }
 
     public int[][] getAvailableDirections(){
@@ -53,6 +58,10 @@ public abstract class Board {
 
     public int getCols(){
         return cols;
+    }
+
+    public List<Field> getCorner(int i){
+        return corners.get(i);
     }
     
 }

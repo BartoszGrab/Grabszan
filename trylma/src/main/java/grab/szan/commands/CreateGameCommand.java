@@ -5,7 +5,7 @@ import grab.szan.Player;
 import grab.szan.Server;
 import grab.szan.boards.ClassicBoard;
 import grab.szan.gameModes.GameMode;
-import grab.szan.gameModes.OneVsOne; // przykładowa plansza, do dostosowania
+import grab.szan.gameModes.ClassicGameMode; // przykładowa plansza, do dostosowania
 
 public class CreateGameCommand implements Command {
 
@@ -38,7 +38,7 @@ public class CreateGameCommand implements Command {
         // TODO: switch case na tryby gry, sprawdzanie liczby graczy (?)
 
         // Wybór trybu gry i planszy (przykładowe, do zmiany!!!)
-        GameMode mode = new OneVsOne(); 
+        GameMode mode = new ClassicGameMode(); 
         ClassicBoard board = new ClassicBoard();
         board.generateBoard(); // generujemy układ planszy
 
