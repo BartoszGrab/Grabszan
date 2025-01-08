@@ -1,7 +1,8 @@
 package grab.szan.controller;
 
+import grab.szan.Client;
+import grab.szan.utils.Utils;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 
 public class JoinGameController {
@@ -18,36 +19,19 @@ public class JoinGameController {
         String nickname = nicknameTextField.getText();
         
         if (gameName.isEmpty() || nickname.isEmpty()) {
-            showAlert("Error", "All fields must be filled!");
+            Utils.showAlert("Error", "All fields must be filled!");
             return;
         }
 
-        try {
-            boolean joinSuccess = joinGame(gameName, nickname);
-
-            if (joinSuccess) {
-                // TODO: powinien być wywołany widok pokoju gry
-                // ViewManager.showGameRoomView();
-                showAlert("Success", "Joined the game successfully!");
-            } else {
-                showAlert("Error", "Failed to join the game!");
-            }
-        } catch (Exception e) {
-            showAlert("Error", "An unexpected error occurred: " + e.getMessage());
-            e.printStackTrace();
-        }
+        joinGame(gameName, nickname);
     }
     
-    private boolean joinGame(String gameName, String nickname) {
-        // TODO: do zaimplementowania wysyłanie zapytania do serwera o dołączenie do gry
-        return true;
-    }
-
-    private void showAlert(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
+    private void joinGame(String gameName, String nickname) {
+        try{
+            Client.getInstance().sendToServer("join " + gameName + " " + nickname);
+        } catch(NullPointerException e){
+            e.printStackTrace();
+            Utils.showAlert("Unexpected error", "client hasn't been initiated");
+        }
     }
 }

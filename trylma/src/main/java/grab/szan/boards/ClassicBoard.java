@@ -1,5 +1,8 @@
 package grab.szan.boards;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import grab.szan.Field;
 
 /*
@@ -15,32 +18,79 @@ public class ClassicBoard extends Board{
 
     @Override
     public void generateBoard(){
-        //generowanie gornego trojkata
+        //generowanie gornego naroznika
+        List<Field> upperCorner  = new ArrayList<>();
         for(int i = 0; i < 4; i++){
             for(int j = 12-i; j <= 12+i; j += 2){
                 fields[i][j] = new Field();
+                upperCorner.add(fields[i][j]);
             }
         }
 
-        //generowanie srodkowej czesci 1.
+        //generowanie gornego lewego narożnika
+        List<Field> upperLeftCorner = new ArrayList<>();
+        for(int i = 4; i <= 7; i++){
+            for(int j = i-4; j <= 10 - i; j += 2){
+                fields[i][j] = new Field();
+                upperLeftCorner.add(fields[i][j]);
+            }
+        }
+
+        //generowanie gornego prawego naroznika
+        List<Field> upperRightCorner = new ArrayList<>();
+        for(int i = 4; i <= 7; i++){
+            for(int j = 14 + i; j <= 28 - i; j += 2){
+                fields[i][j] = new Field();
+                upperRightCorner.add(fields[i][j]);
+            }
+        }
+
+        //generowanie środkowej czesci 1.
         for(int i = 4; i <= 8; i++){
-            for(int j = i-4; j < 29-i; j += 2){
+            for(int j = 12 - i; j <= 12 + i; j += 2){
                 fields[i][j] = new Field();
             }
         }
 
         //generowanie srodkowej czesci 2.
         for(int i = 9; i <= 12; i++){
-            for(int j = 12-i; j<= 12+i; j += 2){
+            for(int j = i - 4; j<= 28 - i; j += 2){
                 fields[i][j] = new Field();
             }
         }
 
-        //generowanie dolnego trojkata
+        //generowanie dolnego naroznika
+        List<Field> bottomCorner = new ArrayList<>();
         for(int i = 13; i <= 17; i++){
             for(int j = i-4; j <= 28-i; j += 2){
                 fields[i][j] = new Field();
+                bottomCorner.add(fields[i][j]);
             }
         }
+
+        //generowanie dolnego lewego narożnika
+        List<Field> bottomLeftCorner = new ArrayList<>();
+        for(int i = 9; i <= 12; i++){
+            for(int j = 12 - i; j <= i - 6; j += 2){
+                fields[i][j] = new Field();
+                bottomLeftCorner.add(fields[i][j]);
+            }
+        }
+
+        //generowanie dolnego prawego narożnika
+        List<Field> bottomRightCorner = new ArrayList<>();
+        for(int i = 9; i <= 12; i++){
+            for(int j = 30 - i; j <= 12 + i; j += 2){
+                fields[i][j] = new Field();
+                bottomRightCorner.add(fields[i][j]);
+            }
+        }
+
+        corners.add(upperCorner);
+        corners.add(bottomCorner);
+        corners.add(upperLeftCorner);
+        corners.add(bottomRightCorner);
+        corners.add(upperRightCorner);
+        corners.add(bottomLeftCorner);  
     }
 }

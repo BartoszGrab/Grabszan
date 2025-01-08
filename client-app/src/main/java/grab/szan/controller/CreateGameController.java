@@ -1,7 +1,10 @@
 package grab.szan.controller;
+import java.io.IOException;
 
+import grab.szan.Client;
+import grab.szan.boardBuilders.ClassicBoardBuilder;
+import grab.szan.utils.Utils;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 
@@ -16,7 +19,7 @@ public class CreateGameController {
     private ChoiceBox<Integer> noOfPlayersChoiceBox;
 
     @FXML
-    private TextField nicknameTextField;
+    private TextField nicknameTextField1;
 
     @FXML
     private void initialize() {
@@ -31,40 +34,30 @@ public class CreateGameController {
     private void onCreate() {
         String gameName = gameNameTextField.getText();
         String gameMode = gameModeChoiceBox.getValue();
-        String nickname = nicknameTextField.getText();
+        String nickname = nicknameTextField1.getText();      
         int noOfPlayers = noOfPlayersChoiceBox.getValue();
 
         if (gameName.isEmpty() || gameMode == null || noOfPlayers == 0 || nickname.isEmpty()) {
-            showAlert("Error", "All fields must be filled!");
+            Utils.showAlert("Error", "All fields must be filled!");
             return;
         }
 
-        try {
-            boolean gameCreationSuccess = createGame(gameName, gameMode, noOfPlayers, nickname);
+        createGame(gameName, gameMode, noOfPlayers, nickname);
+    }
 
-            if (gameCreationSuccess) {
-                //TODO: powinien być wywołany widok pokoju gry
-                showAlert("Success", "Game created successfully!");
-            } else {
-                showAlert("Error", "Failed to create a game!");
-            }
-        } catch (Exception e) {
-            showAlert("Error", "An unexpected error occurred: " + e.getMessage());
+    private void createGame(String gameName, String gameMode, int noOfPlayers, String nickname) {
+        try{
+            Client.getInstance().sendToServer("create " + gameName + " " + noOfPlayers + " " + nickname + " " + gameMode);
+            //TODO obsluga generowania innych planszy w zaleznosci od wybranego trybu gry
+            GameViewController.setBuilder(new ClassicBoardBuilder());
+            ViewManager.showGameView();
+        } catch(NullPointerException e){
+            e.printStackTrace();
+            Utils.showAlert("Unexpected error", "client hasn't been initiated");
+        } catch (IOException e) {
+            e.printStackTrace();
+            Utils.showAlert("Unexpected error", "fuck your mum");
         }
-
-    }
-
-    private boolean createGame(String gameName, String gameMode, int noOfPlayers, String nickname) {
-        // TODO: do zaimplementowania wysyłanie zapytania do serwera o utworzenie nowej gry
-
-        return true;
-    }
-
-    private void showAlert(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
+        
     }
 }
