@@ -55,8 +55,6 @@ public class Player implements Runnable{
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             out = new PrintWriter(socket.getOutputStream());
 
-            out.println("Welcome to server!");
-
             while(true){
                 String command = in.readLine();
                 if(command == null) break;

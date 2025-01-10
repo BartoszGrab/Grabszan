@@ -34,8 +34,8 @@ public class JoinGameCommand implements Command {
         }
         // Próba dodania gracza do gry
         if (game.addPlayer(player)) {
-            player.sendMessage("Success: You have joined the game '" + roomName + "'.");
-            game.broadcast("display Success Player joined the game."); // Informacja dla pozostałych graczy
+            player.sendMessage("display Success You have joined the game '" + roomName + "'.");
+            player.sendMessage("gamemode " + game.getGameType());
             player.setActiveGame(game);
             player.setNickname(args[2]);
         } else {

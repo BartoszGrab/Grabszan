@@ -3,7 +3,6 @@ package grab.szan.commands;
 import grab.szan.Game;
 import grab.szan.Player;
 import grab.szan.Server;
-import grab.szan.boards.Board;
 import grab.szan.gameModes.GameMode;
 import grab.szan.gameModes.GameModeHandler;
 
@@ -12,7 +11,7 @@ public class CreateGameCommand implements Command {
     @Override
     public void execute(String[] args, Player player) {
         if (args.length < 5) {
-            player.sendMessage("Use: create <name> <num_of_players> <nickname> <gamemode>");
+            player.sendMessage("display Use: create <name> <num_of_players> <nickname> <gamemode>");
             return;
         }
 
@@ -35,11 +34,13 @@ public class CreateGameCommand implements Command {
 
         // Wybór trybu gry i planszy 
         GameMode mode = GameModeHandler.getGameModeHandler().getGameMode(args[4]);
-        Board board = mode.getBoard();
-        board.generateBoard(); // generujemy układ planszy
+        if(!mode.getAllowedNumOfPlayers().contains(maxPlayers)){
+            player.sendMessage("display Error cannot create room for " + maxPlayers + " players in this gamemode");
+            return;
+        }
 
         // Tworzymy nową grę
-        Game game = new Game(gameName, maxPlayers, mode, board);
+        Game game = new Game(gameName, maxPlayers, args[4]);
 
         // Dodajemy grę do serwera
         boolean added = server.addGame(game);

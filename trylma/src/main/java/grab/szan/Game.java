@@ -8,6 +8,7 @@ import java.util.Random;
 
 import grab.szan.boards.Board;
 import grab.szan.gameModes.GameMode;
+import grab.szan.gameModes.GameModeHandler;
 
 public class Game {
     //room to nazwa pokoju dla danej rozgrywki
@@ -16,6 +17,8 @@ public class Game {
     private List<Player> players;
     private GameMode mode;
     private Board board;
+    private String gameType;
+    private GameState state;
 
     //indeks gracza ktory rozpoczyna kolejke
     private int startIndex;
@@ -30,6 +33,10 @@ public class Game {
 
     public Board getBoard(){
         return board;
+    }
+
+    public String getGameType(){
+        return gameType;
     }
 
     /**
@@ -47,14 +54,19 @@ public class Game {
      * @param mode - tryb gry
      * @param board - plansza
      */
-    public Game(String room, int maxPlayers, GameMode mode, Board board){
+    public Game(String room, int maxPlayers, String gameType){
         players = new ArrayList<>();
         this.room = room;
         this.maxPlayers = maxPlayers;
-        this.mode = mode;
-        this.board = board;
+        this.gameType = gameType;
+
+        mode = GameModeHandler.getGameModeHandler().getGameMode(gameType);
+        board = mode.getBoard();
+        board.generateBoard();
 
         random = new Random();
+
+        state = GameState.NOTSTARTED;
     }
 
     /**
@@ -66,7 +78,7 @@ public class Game {
         if(players.size() < maxPlayers){
             players.add(player);
             player.setId(players.size());
-            player.sendMessage("your id is " + player.getId());
+            player.sendMessage("display msg your id is " + player.getId());
             return true;
         }
         return false;
@@ -94,19 +106,38 @@ public class Game {
      * metoda do rozpoczynania rozgrywki
      */
     public void startGame(){
+        if(state.equals(GameState.STARTED)){
+            broadcast("display Error game already started");
+            return;
+        }
+
         //sprawdzenie czy mamy wystarczająco graczy
-        if(players.size()<maxPlayers){
-            broadcast("not enough players to start game");
+        if(!mode.getAllowedNumOfPlayers().contains(players.size())){
+            broadcast("display Error not enough players to start game");
+            return;
         }
 
         //rozstawienie pionków
         mode.initializePieces(board, players);
+        
+        for(int i = 0; i < board.getCols(); i++){
+            for(int j = 0; j < board.getRows(); j++){
+                Field field = board.getField(j, i);
+                if(field == null) continue;
+
+                Player player = field.getPlayer();
+                if(player == null) continue;
+
+                broadcast("set " + i + " " + j + " " + player.getId());
+            }
+        }
+
+        state = GameState.STARTED;
 
         //wylosowanie gracza który rozpoczyna kolejke
         startIndex = random.nextInt(0, maxPlayers);
         currentIndex = startIndex;
-        broadcast("it's player " + players.get(currentIndex).getId() + "'s turn");
-        broadcast("current board state:\n" + board.displayBoard());
+        broadcast("display Info it's player " + players.get(currentIndex).getNickname() + "'s turn");
     }
 
     /**
@@ -123,7 +154,7 @@ public class Game {
 
         //sprawdzenie czy ruch moze zostac wykonany
         if(!isValidMove(startRow, startCol, endRow, endCol, player)){
-            player.sendMessage("invalid move!");
+            player.sendMessage("display Error invalid move!");
             return false;
         }
 
@@ -138,9 +169,9 @@ public class Game {
         //sprawdzenie czy gra sie zakończyła
         Player winner = mode.getWinner(board, players);
         if(winner != null){
-            broadcast("Game finished! Player " + winner.getId() + " won");
+            broadcast("display Game-finished! Player " + winner.getId() + " won");
         }else{
-            broadcast("Player " +  players.get(currentIndex).getId() + "turn");
+            broadcast("display Turn Player " +  players.get(currentIndex).getId() + "turn");
         }
 
         return true;
@@ -161,25 +192,25 @@ public class Game {
             startCol  < 0 || startCol >= board.getCols() ||
             endRow < 0 || endRow >= board.getRows() || 
             endCol < 0 || endCol >= board.getCols()){
-                player.sendMessage("no field with that position exists");
+                player.sendMessage("display Error no field with that position exists");
                 return false;
         }
 
         //sprawdzenie czy istnieje grywalne pole na danej pozycji
         if(board.getField(endRow, endCol) == null || board.getField(startRow, startCol) == null){
-            player.sendMessage("there's no field on given position");
+            player.sendMessage("display Errror there's no field on given position");
             return false;
         }
 
         //sprawdzenie czy na polu startowym gracz wykonujący ruch ma pionek
         if(board.getField(startRow, startCol).getPlayer() == null || !board.getField(startRow, startCol).getPlayer().equals(player)){
-            player.sendMessage("You don't have a pawn on that position");
+            player.sendMessage("display Error You don't have a pawn on that position");
             return false;
         }
 
         //sprawdzenie czy pole destynacji jest puste
         if(board.getField(endRow, endCol).getPlayer() != null){
-            player.sendMessage("there is already a pawn at that destination");
+            player.sendMessage("display Error there is already a pawn at that destination");
             return false;
         }
 

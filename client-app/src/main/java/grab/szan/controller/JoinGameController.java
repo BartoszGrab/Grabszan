@@ -1,5 +1,7 @@
 package grab.szan.controller;
 
+import java.io.IOException;
+
 import grab.szan.Client;
 import grab.szan.utils.Utils;
 import javafx.fxml.FXML;
@@ -29,9 +31,12 @@ public class JoinGameController {
     private void joinGame(String gameName, String nickname) {
         try{
             Client.getInstance().sendToServer("join " + gameName + " " + nickname);
+            ViewManager.showGameView();
         } catch(NullPointerException e){
             e.printStackTrace();
             Utils.showAlert("Unexpected error", "client hasn't been initiated");
+        } catch(IOException e){
+            e.printStackTrace();
         }
     }
 }
