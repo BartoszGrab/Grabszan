@@ -2,7 +2,7 @@ package grab.szan.controller;
 
 import javafx.fxml.FXML;
 
-public class MenuController {
+public class MenuController implements Controller{
 
     @FXML
     private void onCreateGame() {

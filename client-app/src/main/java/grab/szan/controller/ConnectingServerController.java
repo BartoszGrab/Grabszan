@@ -5,7 +5,7 @@ import grab.szan.utils.Utils;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 
-public class ConnectingServerController {
+public class ConnectingServerController implements Controller{
 
     @FXML
     private TextField hostField;

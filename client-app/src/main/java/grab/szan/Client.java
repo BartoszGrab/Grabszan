@@ -7,15 +7,18 @@ import java.io.PrintWriter;
 import java.net.Socket;
 
 import grab.szan.commands.CommandHandler;
+import grab.szan.controller.Controller;
 import grab.szan.utils.Utils;
 
 public class Client {
     private static Client instance;
     private final String host;
     private final int port;
+    private int id;
     private Socket socket;
     private PrintWriter out;
     private BufferedReader in;
+    private Controller currentController;
 
     private Client(String host, int port) {
         this.host = host;
@@ -41,6 +44,14 @@ public class Client {
         return true;
     }
 
+    public void setCurrentController(Controller controller){
+        currentController = controller;
+    }
+
+    public Controller getCurrentController(){
+        return currentController;
+    }
+
     // Nasłuchuje wiadomości od serwera
     private void listenForMessages() {
         try {
@@ -51,7 +62,7 @@ public class Client {
                 String[] args = command.split(" ");
 
                 try{
-                    CommandHandler.getCommandHandler().getCommand(args[0]).execute(args);
+                    CommandHandler.getCommandHandler().getCommand(args[0]).execute(args, currentController);
                 } catch(IllegalArgumentException e){
                     Utils.showAlert("Error", e.getMessage());
                 }
@@ -64,6 +75,14 @@ public class Client {
 
     public void sendToServer(String msg) {
         out.println(msg);
+    }
+
+    public int getId(){
+        return id;
+    }
+
+    public void setId(int id){
+        this.id = id;
     }
 
     // Zamyka połączenie z serwerem

@@ -5,7 +5,7 @@ import java.util.HashMap;
 public class BoardHandler {
      private static BoardHandler boardHandler;
 
-    private HashMap<String, BoardBuilder> boardMap;
+    private HashMap<String, Board> boardMap;
 
     private BoardHandler(){
         boardMap = new HashMap<>();
@@ -39,7 +39,7 @@ public class BoardHandler {
     * @param BoardLine - polecenie wpisywane w terminalu
     * @param executable - obiekt implementujacy Board z metodą execute
     */
-    public void addBoard(String BoardLine, BoardBuilder Board){
+    public void addBoard(String BoardLine, Board Board){
         boardMap.put(BoardLine, Board);
     }
 
@@ -50,7 +50,7 @@ public class BoardHandler {
      * @return obiekt typu Board jeśli wprowadzona komenda istnieje
      * @throws IllegalArgumentException jeślli komenda nie istnieje
      */
-    public BoardBuilder getBoard(String BoardLine){
+    public Board getBoard(String BoardLine){
         if(!boardMap.containsKey(BoardLine)){
             throw new IllegalArgumentException("invalid Board line");
         }

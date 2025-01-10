@@ -3,15 +3,17 @@ package grab.szan.boardBuilders;
 import java.util.ArrayList;
 import java.util.List;
 
+import grab.szan.Client;
 import grab.szan.Field;
+import javafx.scene.Node;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 
-public class ClassicBoardBuilder implements BoardBuilder {
-
-    private Field[][] fields;
+public class ClassicBoardBuilder extends Board {
 
     @Override
     public void generateBoard(Pane pane) {
+        corners = new ArrayList<>();
         fields = new Field[17][25];
         double radius = 15; 
 
@@ -90,11 +92,38 @@ public class ClassicBoardBuilder implements BoardBuilder {
                 pane.getChildren().add(fields[i][j]);
             }
         }
+
+        corners.add(upperCorner);
+        corners.add(bottomCorner);
+        corners.add(upperLeftCorner);
+        corners.add(bottomRightCorner);
+        corners.add(upperRightCorner);
+        corners.add(bottomLeftCorner);  
+
+        pane.setOnMouseClicked(event -> onClick(event));
     }
 
     @Override
     public Field getField(int i, int j) {
         return fields[i][j];
+    }
+
+    private void onClick(MouseEvent e) {
+        Node node = e.getPickResult().getIntersectedNode();
+        if(!(node instanceof Field)){
+            return;
+        }
+
+        Field field = (Field)node;
+        Field temp = new Field(0, 0, 0);
+        if(firstField == null || firstField.getFieldId() != Client.getInstance().getId()){
+            firstField = field;
+            return;
+        }
+
+
+        Client.getInstance().sendToServer("move " + firstField.getRow() + " " + firstField.getCol() + " " + field.getRow() + " " + field.getCol());
+        firstField = temp;
     }
 
 }

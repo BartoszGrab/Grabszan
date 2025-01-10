@@ -15,6 +15,7 @@ public class Utils {
 
     public static void configureUtils(){
         colorMap = new HashMap<>();
+        colorMap.put(0, Color.LIGHTBLUE);
         colorMap.put(1, Color.GREEN);
         colorMap.put(2, Color.RED);
         colorMap.put(3, Color.BLUE);

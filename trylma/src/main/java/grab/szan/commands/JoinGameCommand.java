@@ -35,7 +35,8 @@ public class JoinGameCommand implements Command {
         // Próba dodania gracza do gry
         if (game.addPlayer(player)) {
             player.sendMessage("display Success You have joined the game '" + roomName + "'.");
-            player.sendMessage("gamemode " + game.getGameType());
+            player.sendMessage("acceptJoin " + game.getGameType() + " " + player.getId() + " " + player.getNickname());
+
             player.setActiveGame(game);
             player.setNickname(args[2]);
         } else {

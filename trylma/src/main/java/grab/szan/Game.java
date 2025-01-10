@@ -78,7 +78,6 @@ public class Game {
         if(players.size() < maxPlayers){
             players.add(player);
             player.setId(players.size());
-            player.sendMessage("display msg your id is " + player.getId());
             return true;
         }
         return false;
@@ -128,7 +127,7 @@ public class Game {
                 Player player = field.getPlayer();
                 if(player == null) continue;
 
-                broadcast("set " + i + " " + j + " " + player.getId());
+                broadcast("set " + j + " " + i + " " + player.getId());
             }
         }
 
