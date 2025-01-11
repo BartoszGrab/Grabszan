@@ -138,7 +138,7 @@ public class Game {
         state = GameState.STARTED;
 
         //wylosowanie gracza który rozpoczyna kolejke
-        startIndex = random.nextInt(0, maxPlayers);
+        startIndex = random.nextInt(0, players.size());
         currentIndex = startIndex;
         broadcast("display Info it's player " + players.get(currentIndex).getNickname() + "'s turn");
     }
@@ -167,7 +167,7 @@ public class Game {
 
         //zmiana indeksu gracza który ma ruch
         currentIndex++;
-        currentIndex %= maxPlayers;
+        currentIndex %= players.size();
 
         //sprawdzenie czy gra sie zakończyła
         Player winner = mode.getWinner(board, players);
