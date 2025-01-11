@@ -57,7 +57,7 @@ public class CreateGameCommand implements Command {
             //ustawianie nicku gracza
             player.setNickname(args[3]);
             //accept join request
-            player.sendMessage("acceptJoin " + args[4] + " " + player.getId() + " " + player.getNickname());
+            player.sendMessage("acceptJoin " + args[4] + " " + player.getId() + " " + args[3]);
             player.sendMessage("display Success created new game: " + gameName + " with maximum number of players: " + maxPlayers);
         } else {
             player.sendMessage("display Error Couldn't join new game");

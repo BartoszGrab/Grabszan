@@ -47,6 +47,10 @@ public class Game {
         return players.get(currentIndex);
     }
 
+    public Player getPlayer(int id){
+        return players.get(id);
+    }
+
     /**
      * inicjuje obiekt Game
      * @param room - nazwa pokoju

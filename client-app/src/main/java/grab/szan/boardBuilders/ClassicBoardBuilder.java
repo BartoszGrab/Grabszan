@@ -108,22 +108,26 @@ public class ClassicBoardBuilder extends Board {
         return fields[i][j];
     }
 
+    /**
+     * this method should be called when user clicks on the Pane that contains this Board object
+     * @param e mouse event
+     */
     private void onClick(MouseEvent e) {
         Node node = e.getPickResult().getIntersectedNode();
+        //check if node we clicked on is actually instance of Field
         if(!(node instanceof Field)){
             return;
         }
 
         Field field = (Field)node;
-        Field temp = new Field(0, 0, 0);
         if(firstField == null || firstField.getFieldId() != Client.getInstance().getId()){
             firstField = field;
             return;
         }
 
-
+        //send move request to server
         Client.getInstance().sendToServer("move " + firstField.getRow() + " " + firstField.getCol() + " " + field.getRow() + " " + field.getCol());
-        firstField = temp;
+        firstField = null;
     }
 
 }

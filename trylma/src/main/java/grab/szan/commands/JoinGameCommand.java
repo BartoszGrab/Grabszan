@@ -35,10 +35,21 @@ public class JoinGameCommand implements Command {
         // Próba dodania gracza do gry
         if (game.addPlayer(player)) {
             player.sendMessage("display Success You have joined the game '" + roomName + "'.");
-            player.sendMessage("acceptJoin " + game.getGameType() + " " + player.getId() + " " + player.getNickname());
-
             player.setActiveGame(game);
             player.setNickname(args[2]);
+
+            StringBuilder commandBuilder = new StringBuilder();
+       
+            for(int i = 0; i < game.getPlayers().size()-1; i++){
+                commandBuilder.append(game.getPlayer(i).getNickname()).append(" ");
+            }
+
+            //update list of players for each player in the game
+            game.broadcast("updateList " + player.getNickname());
+
+            //send information about accepting join request
+            player.sendMessage("acceptJoin " + game.getGameType() + " " + player.getId() + " " + commandBuilder.toString() + player.getNickname());
+
         } else {
             player.sendMessage("display Error Game '" + roomName + "' is full.");
         }

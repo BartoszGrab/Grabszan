@@ -4,8 +4,10 @@ import grab.szan.Client;
 import grab.szan.boardBuilders.Board;
 import grab.szan.utils.Utils;
 import javafx.fxml.FXML;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 
 public class GameViewController implements Controller{
     @FXML
@@ -22,6 +24,25 @@ public class GameViewController implements Controller{
 
     public void initialize(){
         boardBuilder.generateBoard(boardPane);
+        playerListView.setCellFactory(lv -> new ListCell<String>() {
+            @Override 
+            protected void updateItem(String item, boolean empty){
+                super .updateItem(item, empty);
+
+                if(empty || item == null){
+                    return;
+                } 
+
+                setText(item);
+                Color color = Utils.getColorById(getIndex()+1);
+                
+                String colorStyle = String.format("-fx-text-fill: rgb(%d, %d, %d);",
+                    (int) (color.getRed() * 255),
+                    (int) (color.getGreen() * 255),
+                    (int) (color.getBlue() * 255));
+                setStyle(colorStyle + "-fx-font-weight: bold;");
+            }
+        });
     }
 
     public static Board getBoardBuilder(){
@@ -30,6 +51,10 @@ public class GameViewController implements Controller{
 
     public void addPlayer(String nickname){
         playerListView.getItems().add(nickname);
+    }
+
+    public void clearPlayers(){
+        playerListView.getItems().clear();
     }
 
     @FXML
