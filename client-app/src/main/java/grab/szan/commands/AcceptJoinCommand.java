@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import grab.szan.Client;
 import grab.szan.boardBuilders.BoardHandler;
-import grab.szan.controller.Controller;
 import grab.szan.controller.GameViewController;
 import grab.szan.controller.ViewManager;
 import grab.szan.utils.Utils;
@@ -16,7 +15,7 @@ import javafx.application.Platform;
 public class AcceptJoinCommand implements Command {
 
     @Override
-    public void execute(String[] args, Controller controller) {
+    public void execute(String[] args) {
         if(args.length < 3){
             Utils.showAlert("Error", "Error occured while accepting join request");
             return;

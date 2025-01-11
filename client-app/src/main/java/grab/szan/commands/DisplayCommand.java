@@ -1,12 +1,10 @@
 package grab.szan.commands;
-
-import grab.szan.controller.Controller;
 import grab.szan.utils.Utils;
 
 public class DisplayCommand implements Command{
 
     @Override
-    public void execute(String[] args, Controller controller) {
+    public void execute(String[] args) {
         if(args.length < 2){
             return;
         }

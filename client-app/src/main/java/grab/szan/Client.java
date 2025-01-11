@@ -7,7 +7,6 @@ import java.io.PrintWriter;
 import java.net.Socket;
 
 import grab.szan.commands.CommandHandler;
-import grab.szan.controller.ViewManager;
 import grab.szan.utils.Utils;
 
 public class Client {
@@ -53,7 +52,7 @@ public class Client {
                 String[] args = command.split(" ");
 
                 try{
-                    CommandHandler.getCommandHandler().getCommand(args[0]).execute(args, ViewManager.getController());
+                    CommandHandler.getCommandHandler().getCommand(args[0]).execute(args);
                 } catch(IllegalArgumentException e){
                     Utils.showAlert("Error", e.getMessage());
                 }

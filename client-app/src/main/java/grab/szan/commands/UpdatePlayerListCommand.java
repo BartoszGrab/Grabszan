@@ -1,18 +1,17 @@
 package grab.szan.commands;
-
-import grab.szan.controller.Controller;
 import grab.szan.controller.GameViewController;
+import grab.szan.controller.ViewManager;
 import javafx.application.Platform;
 
 public class UpdatePlayerListCommand implements Command{
 
     @Override
-    public void execute(String[] args, Controller controller) {
+    public void execute(String[] args) {
         Platform.runLater(() -> {
-            if(!(controller instanceof GameViewController)){
+            if(!(ViewManager.getController() instanceof GameViewController)){
                 return;
             }
-            GameViewController gameController = (GameViewController)controller;
+            GameViewController gameController = (GameViewController)ViewManager.getController();
             gameController.addPlayer(args[1]);
         });
     }
