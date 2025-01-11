@@ -13,6 +13,9 @@ public class CommandHandler {
     private CommandHandler(){
         commandMap = new HashMap<>();
         commandMap.put("display", new DisplayCommand());
+        commandMap.put("set", new SetFieldCommand());
+        commandMap.put("acceptJoin", new AcceptJoinCommand());
+        commandMap.put("updateList", new UpdatePlayerListCommand());
     }
 
     /**

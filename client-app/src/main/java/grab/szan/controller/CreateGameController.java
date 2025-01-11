@@ -1,14 +1,12 @@
 package grab.szan.controller;
-import java.io.IOException;
 
 import grab.szan.Client;
-import grab.szan.boardBuilders.ClassicBoardBuilder;
 import grab.szan.utils.Utils;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 
-public class CreateGameController {
+public class CreateGameController implements Controller{
     @FXML
     private TextField gameNameTextField;
 
@@ -48,15 +46,9 @@ public class CreateGameController {
     private void createGame(String gameName, String gameMode, int noOfPlayers, String nickname) {
         try{
             Client.getInstance().sendToServer("create " + gameName + " " + noOfPlayers + " " + nickname + " " + gameMode);
-            //TODO obsluga generowania innych planszy w zaleznosci od wybranego trybu gry
-            GameViewController.setBuilder(new ClassicBoardBuilder());
-            ViewManager.showGameView();
         } catch(NullPointerException e){
             e.printStackTrace();
             Utils.showAlert("Unexpected error", "client hasn't been initiated");
-        } catch (IOException e) {
-            e.printStackTrace();
-            Utils.showAlert("Unexpected error", "fuck your mum");
         }
         
     }

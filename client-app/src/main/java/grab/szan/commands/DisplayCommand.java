@@ -1,5 +1,4 @@
 package grab.szan.commands;
-
 import grab.szan.utils.Utils;
 
 public class DisplayCommand implements Command{

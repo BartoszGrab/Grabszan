@@ -35,8 +35,9 @@ public class MoveCommand implements Command{
 
             //przesuwanie gracza
             if(player.getActiveGame().moveCurrentPlayer(startRow, startCol, endRow, endCol)){
-                player.sendMessage("display Success player moved succesfully");
-                player.getActiveGame().broadcast("current board state:\n" + player.getActiveGame().getBoard().displayBoard());
+                player.getActiveGame().broadcast("set " + startRow + " " + startCol + " " + 0);
+                player.getActiveGame().broadcast("set " + endRow + " " + endCol + " " + player.getId());
+                //player.getActiveGame().broadcast("current board state:\n" + player.getActiveGame().getBoard().displayBoard());
             }
 
         }catch(NumberFormatException e){

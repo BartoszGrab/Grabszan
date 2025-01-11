@@ -13,6 +13,7 @@ public class Client {
     private static Client instance;
     private final String host;
     private final int port;
+    private int id;
     private Socket socket;
     private PrintWriter out;
     private BufferedReader in;
@@ -64,6 +65,14 @@ public class Client {
 
     public void sendToServer(String msg) {
         out.println(msg);
+    }
+
+    public int getId(){
+        return id;
+    }
+
+    public void setId(int id){
+        this.id = id;
     }
 
     // Zamyka połączenie z serwerem

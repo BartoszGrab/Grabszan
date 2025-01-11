@@ -45,7 +45,7 @@ public class ClassicGameMode implements GameMode {
             Player player = players.get(i);
             
             for(Field field : board.getCorner(idx)) {
-                if(field.getPlayer().equals(player)) {
+                if(field.getPlayer() != null && field.getPlayer().equals(player)) {
                     count++;
                 }
             }
