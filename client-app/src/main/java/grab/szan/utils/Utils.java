@@ -20,7 +20,7 @@ public class Utils {
         colorMap.put(2, Color.RED);
         colorMap.put(3, Color.BLUE);
         colorMap.put(4, Color.ORANGE);
-        colorMap.put(5, Color.YELLOW);
+        colorMap.put(5, Color.PINK);
         colorMap.put(6, Color.PURPLE);
     }
 
