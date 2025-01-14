@@ -37,7 +37,7 @@ public class JoinGameCommand implements Command {
             player.sendMessage("display Success You have joined the game '" + roomName + "'.");
             player.setActiveGame(game);
             player.setNickname(args[2]);
-
+            
             StringBuilder commandBuilder = new StringBuilder();
        
             for(int i = 0; i < game.getPlayers().size()-1; i++){
@@ -48,7 +48,8 @@ public class JoinGameCommand implements Command {
             game.broadcast("updateList " + player.getNickname());
 
             //send information about accepting join request
-            player.sendMessage("acceptJoin " + game.getGameType() + " " + player.getId() + " " + commandBuilder.toString() + player.getNickname());
+            // acceptJoin <gameType> <room name> <player Id> <players> <nickname>
+            player.sendMessage("acceptJoin " + game.getGameType() + " " + roomName + " " + player.getId() + " " + commandBuilder.toString() + player.getNickname());
 
         } else {
             player.sendMessage("display Error Game '" + roomName + "' is full.");

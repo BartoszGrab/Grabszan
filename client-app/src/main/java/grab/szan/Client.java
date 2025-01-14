@@ -18,6 +18,9 @@ public class Client {
     private PrintWriter out;
     private BufferedReader in;
 
+    private String roomName;
+    private String nickname;
+
     private Client(String host, int port) {
         this.host = host;
         this.port = port;
@@ -73,6 +76,22 @@ public class Client {
 
     public void setId(int id){
         this.id = id;
+    }
+
+    public String getRoomName() {
+        return roomName;
+    }
+
+    public void setRoomName(String roomName) {
+        this.roomName = roomName;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 
     // Zamyka połączenie z serwerem

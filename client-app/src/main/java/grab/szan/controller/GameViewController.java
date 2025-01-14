@@ -1,9 +1,14 @@
 package grab.szan.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import grab.szan.Client;
 import grab.szan.boardBuilders.Board;
 import grab.szan.utils.Utils;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.Pane;
@@ -16,6 +21,11 @@ public class GameViewController implements Controller{
     @FXML
     private ListView<String> playerListView;
 
+    @FXML
+    private Label turnLabel;
+    private int currentPlayerIndex = 0;
+    private final List<String> players = new ArrayList<>();
+
     private static Board boardBuilder;
 
     public static void setBuilder(Board builder){
@@ -23,11 +33,12 @@ public class GameViewController implements Controller{
     }
 
     public void initialize(){
+        Utils.configureUtils();
         boardBuilder.generateBoard(boardPane);
         playerListView.setCellFactory(lv -> new ListCell<String>() {
             @Override 
             protected void updateItem(String item, boolean empty){
-                super .updateItem(item, empty);
+                super.updateItem(item, empty);
 
                 if(empty || item == null){
                     return;
@@ -45,14 +56,30 @@ public class GameViewController implements Controller{
         });
     }
 
+    public void updateTurnLabel(String nickname) {
+        Platform.runLater(() -> {
+            turnLabel.setText(nickname + "'s turn");
+            int playerIndex = players.indexOf(nickname);
+            if (playerIndex >= 0) {
+                Color playerColor = Utils.getColorById(playerIndex + 1);
+                turnLabel.setTextFill(playerColor);
+            } else {
+                turnLabel.setTextFill(Color.BLACK);
+            }
+        });
+    }
+    
     public static Board getBoardBuilder(){
         return boardBuilder;
     }
 
-    public void addPlayer(String nickname){
+    public void addPlayer(String nickname) {
+        players.add(nickname);
         playerListView.getItems().add(nickname);
+        if (players.size() == 1) {
+            updateTurnLabel(nickname);
+        }
     }
-
     public void clearPlayers(){
         playerListView.getItems().clear();
     }

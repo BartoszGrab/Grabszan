@@ -1,6 +1,8 @@
 package grab.szan.controller;
 
 import java.io.IOException;
+
+import grab.szan.Client;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -8,21 +10,18 @@ import javafx.stage.Stage;
 public class ViewManager {
 
     private static Stage primaryStage;
-    /**current view controller */
     private static Controller currentController;
 
     /**
      * @return Controller of the current view
      */
-    public static Controller getController(){
+    public static Controller getController() {
         return currentController;
     }
-
 
     public static void init(Stage stage) {
         primaryStage = stage;
     }
-
 
     public static void showConnectingView() throws IOException {
         FXMLLoader loader = new FXMLLoader(ViewManager.class.getResource("/grab/szan/view/ConnectingServerView.fxml"));
@@ -32,7 +31,6 @@ public class ViewManager {
         primaryStage.setScene(scene);
         primaryStage.show();
     }
-
 
     public static void showMenuView() throws IOException {
         FXMLLoader loader = new FXMLLoader(ViewManager.class.getResource("/grab/szan/view/MenuView.fxml"));
@@ -65,7 +63,9 @@ public class ViewManager {
         FXMLLoader loader = new FXMLLoader(ViewManager.class.getResource("/grab/szan/view/GameView.fxml"));
         Scene scene = new Scene(loader.load());
         currentController = loader.getController();
-        primaryStage.setTitle("Game");
+        String roomName = Client.getInstance().getRoomName();
+        String nickname = Client.getInstance().getNickname();
+        primaryStage.setTitle(roomName + " " + nickname);
         primaryStage.setScene(scene);
         primaryStage.show();
     }

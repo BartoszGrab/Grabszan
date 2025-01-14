@@ -140,7 +140,7 @@ public class Game {
         //wylosowanie gracza który rozpoczyna kolejke
         startIndex = random.nextInt(0, players.size());
         currentIndex = startIndex;
-        broadcast("display Info it's player " + players.get(currentIndex).getNickname() + "'s turn");
+        broadcast("updateTurn " + players.get(currentIndex).getNickname());
     }
 
     /**
@@ -174,7 +174,8 @@ public class Game {
         if(winner != null){
             broadcast("display Game-finished! Player " + winner.getId() + " won");
         }else{
-            broadcast("display Turn Player " +  players.get(currentIndex).getId() + "turn");
+            broadcast("updateTurn " + players.get(currentIndex).getNickname());
+
         }
 
         return true;
