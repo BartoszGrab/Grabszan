@@ -10,37 +10,54 @@ import grab.szan.utils.Utils;
 import javafx.application.Platform;
 
 /**
- * this command should be executed when server accepts our join request
+ * Komenda wykonywana po zaakceptowaniu żądania dołączenia,
+ * zawiera komunikat: 
+ * acceptJoin <gameType> <roomName> <playerId> <[lista innych graczy…]> <nickname>
  */
 public class AcceptJoinCommand implements Command {
 
     @Override
     public void execute(String[] args) {
-        if(args.length < 3){
-            Utils.showAlert("Error", "Error occured while accepting join request");
+        // Spodziewamy się minimum: acceptJoin gameType roomName playerId nickname
+        if (args.length < 5) {
+            Utils.showAlert("Error", "Error occurred while accepting join request (too few arguments)");
             return;
         }
+        
+        try {
+            // args[1] - gameType, args[2] - roomName, args[3] - playerId,
+            // args[args.length - 1] - nickname
+            String gameType = args[1];
+            String roomName = args[2];
+            int playerId = Integer.parseInt(args[3]);
+            String nickname = args[args.length - 1]; 
 
-        GameViewController.setBuilder(BoardHandler.getBoardHandler().getBoard(args[1]));
+            // Ustawiamy builder planszy w oparciu o gameType
+            GameViewController.setBuilder(BoardHandler.getBoardHandler().getBoard(gameType));
 
-        Platform.runLater(() -> {
-            try {
-                //displaying game view
-                ViewManager.showGameView();
-                Client.getInstance().setId(Integer.parseInt(args[2]));
-                GameViewController gameController = (GameViewController)ViewManager.getController();
-                for(int i = 3; i < args.length; i++){
-                    gameController.addPlayer(args[i]);
+            // Ustawiamy lokalne dane klienta
+            Client.getInstance().setId(playerId);
+            Client.getInstance().setRoomName(roomName);
+            Client.getInstance().setNickname(nickname);
+
+            // Przygotowujemy listę graczy – argumenty od indeksu 4 do args.length - 2
+            // (jeśli nie ma innych graczy, pętla nie wykona się)
+            Platform.runLater(() -> {
+                try {
+                    ViewManager.showGameView();
+                    GameViewController gameController = (GameViewController) ViewManager.getController();
+                    
+                    for (int i = 4; i < args.length; i++) {
+                        gameController.addPlayer(args[i]);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    Utils.showAlert("Error", "Unknown error while displaying game view");
                 }
-            } catch(IOException e){
-                e.printStackTrace();
-                Utils.showAlert("Error", "Unknown error while displaying game view");
-            } catch(NumberFormatException e){
-                e.printStackTrace();
-                Utils.showAlert("Error", "unknown error occured when assigning player id");
-            }
-        });
-
+            });
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            Utils.showAlert("Error", "Error occurred when parsing player id");
+        }
     }
-    
 }
