@@ -32,9 +32,6 @@ public class AcceptJoinCommand implements Command {
             int playerId = Integer.parseInt(args[3]);
             String nickname = args[args.length - 1]; 
 
-            // Ustawiamy builder planszy w oparciu o gameType
-            GameViewController.setBuilder(BoardHandler.getBoardHandler().getBoard(gameType));
-
             // Ustawiamy lokalne dane klienta
             Client.getInstance().setId(playerId);
             Client.getInstance().setRoomName(roomName);
@@ -46,6 +43,9 @@ public class AcceptJoinCommand implements Command {
                 try {
                     ViewManager.showGameView();
                     GameViewController gameController = (GameViewController) ViewManager.getController();
+
+                    //setting up board for chosen game mode
+                    gameController.setBoard(BoardHandler.getBoardHandler().getBoard(gameType));
                     
                     for (int i = 4; i < args.length; i++) {
                         gameController.addPlayer(args[i]);

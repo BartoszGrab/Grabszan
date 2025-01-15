@@ -135,6 +135,11 @@ public class Game {
             }
         }
 
+        //after setting up the board we need to update the colors of nicknames for each client
+        for(Player player : players){
+            broadcast("changeColor " + player.getNickname() + " " + player.getId());
+        }
+
         state = GameState.STARTED;
 
         //wylosowanie gracza który rozpoczyna kolejke
