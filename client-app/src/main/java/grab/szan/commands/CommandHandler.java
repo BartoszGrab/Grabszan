@@ -17,7 +17,7 @@ public class CommandHandler {
         commandMap.put("acceptJoin", new AcceptJoinCommand());
         commandMap.put("updateList", new UpdatePlayerListCommand());
         commandMap.put("updateTurn", new UpdateTurnCommand());
-
+        commandMap.put("setId", new SetIdCommand());
     }
 
     /**

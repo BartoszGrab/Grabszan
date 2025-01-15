@@ -14,7 +14,6 @@ public class App extends Application {
         Utils.configureUtils();
         ViewManager.init(stage);
         ViewManager.showConnectingView();
-
     }
 
     public static void main(String[] args) {

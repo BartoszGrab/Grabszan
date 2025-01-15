@@ -15,13 +15,13 @@ public class Utils {
 
     public static void configureUtils(){
         colorMap = new HashMap<>();
-        colorMap.put(0, Color.LIGHTBLUE);
-        colorMap.put(1, Color.GREEN);
-        colorMap.put(2, Color.RED);
-        colorMap.put(3, Color.BLUE);
+        colorMap.put(6, Color.LIGHTBLUE);
+        colorMap.put(0, Color.GREEN);
+        colorMap.put(3, Color.RED);
+        colorMap.put(1, Color.BLUE);
         colorMap.put(4, Color.ORANGE);
-        colorMap.put(5, Color.PINK);
-        colorMap.put(6, Color.PURPLE);
+        colorMap.put(2, Color.PINK);
+        colorMap.put(5, Color.PURPLE);
     }
 
     public static void showAlert(String title, String message){

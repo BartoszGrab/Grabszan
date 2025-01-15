@@ -11,13 +11,15 @@ import grab.szan.utils.Utils;
 
 public class Client {
     private static Client instance;
+    
     private final String host;
     private final int port;
-    private int id;
     private Socket socket;
+
     private PrintWriter out;
     private BufferedReader in;
 
+    private int id;
     private String roomName;
     private String nickname;
 

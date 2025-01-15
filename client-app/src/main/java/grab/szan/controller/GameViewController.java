@@ -54,7 +54,7 @@ public class GameViewController implements Controller {
                     return;
                 } 
                 setText(item);
-                Color color = Utils.getColorById(getIndex() + 1);
+                Color color = Utils.getColorById(getIndex());
                 String colorStyle = String.format("-fx-text-fill: rgb(%d, %d, %d);",
                     (int) (color.getRed() * 255),
                     (int) (color.getGreen() * 255),
