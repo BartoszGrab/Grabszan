@@ -6,12 +6,12 @@ import javafx.scene.shape.Circle;
 public class Field extends Circle{
     private int row;
     private int col;
-    // id == 0 oznacza pole puste; > 0 – należy do gracza o danym identyfikatorze
+    // id == 6 oznacza pole puste; < 6 – należy do gracza o danym identyfikatorze
     private int id;
 
     public Field(double radius, int i, int j){
         super();
-        id = 0;
+        id = 6;
 
         row = i;
         col = j;

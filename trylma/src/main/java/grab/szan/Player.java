@@ -30,6 +30,7 @@ public class Player implements Runnable{
 
     public void setId(int id){
         this.id = id;
+        sendMessage("setId " + id);
     }
 
     public Player(Socket socket){

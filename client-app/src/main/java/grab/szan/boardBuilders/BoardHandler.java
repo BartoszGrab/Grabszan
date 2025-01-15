@@ -9,8 +9,8 @@ public class BoardHandler {
 
     private BoardHandler(){
         boardMap = new HashMap<>();
-        boardMap.put("Classic", new ClassicBoardBuilder());
-        boardMap.put("Ying-Yang", new ClassicBoardBuilder());
+        boardMap.put("Classic", new ClassicBoard());
+        boardMap.put("Ying-Yang", new YingYangBoard());
     }
 
     /**

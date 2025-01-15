@@ -26,10 +26,13 @@ public class ClassicGameMode implements GameMode {
             throw new IllegalArgumentException("this game mode can only be played by 2, 3, 4, 5 or 6 players!");
         }
         
+        List<Integer> availableCorners = board.getAvailableCorners(players.size());
         for(int i = 0; i < players.size(); i++){
-            for(Field field: board.getCorner(i)){
+            for(Field field: board.getCorner(availableCorners.get(i))){
                 field.setPlayer(players.get(i));
             }
+            
+            players.get(i).setId(availableCorners.get(i));
         }
     }
 
@@ -41,10 +44,11 @@ public class ClassicGameMode implements GameMode {
 
         for(int i = 0; i < players.size(); i++) {
             int count = 0;
-            int idx = i%2 == 0 ? i+1 : i-1;
+
             Player player = players.get(i);
+            int destinationId = (player.getId() + 3)%6;
             
-            for(Field field : board.getCorner(idx)) {
+            for(Field field : board.getCorner(destinationId)) {
                 if(field.getPlayer() != null && field.getPlayer().equals(player)) {
                     count++;
                 }

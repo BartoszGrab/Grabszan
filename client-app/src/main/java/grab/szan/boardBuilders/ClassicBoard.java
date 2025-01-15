@@ -1,12 +1,28 @@
 package grab.szan.boardBuilders;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import grab.szan.Field;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 
-public class ClassicBoardBuilder extends Board {
+public class ClassicBoard extends Board {
+
+    public ClassicBoard(){
+        colorMap = new HashMap<>();
+        //default color
+        colorMap.put(6, Color.LIGHTBLUE);
+        
+        //player pieces
+        colorMap.put(0, Color.DARKGREEN);
+        colorMap.put(1, Color.YELLOWGREEN);
+        colorMap.put(2, Color.ORANGE);
+        colorMap.put(3, Color.RED);
+        colorMap.put(4, Color.PURPLE);
+        colorMap.put(5, Color.BLUE);
+    }
 
     @Override
     public void generateBoard(Pane pane) {

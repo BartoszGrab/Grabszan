@@ -1,6 +1,7 @@
 package grab.szan.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import grab.szan.Client;
@@ -28,21 +29,27 @@ public class GameViewController implements Controller {
     private Label turnLabel;
     
     private final List<String> players = new ArrayList<>();
-    private static Board boardBuilder;
+    private Board board;
+
+    /**List of colors (color at index i should be a font color of element at index i in playerListView)*/
+    private List<Color> colors;
     
     private Field firstField = null;
 
-    public static void setBuilder(Board builder) {
-        boardBuilder = builder;
+    public void setBoard(Board board) {
+        this.board = board;
+        board.generateBoard(boardPane);
     }
 
     public void initialize() {
         Utils.configureUtils();
-        boardBuilder.generateBoard(boardPane);
         
         // Rejestrujemy obsługę kliknięć na planszy (Pane)
         boardPane.setOnMouseClicked(event -> handleBoardClick(event));
-        
+
+        //at the beggining all colors should be black, we'll later change the colors when the game starts
+        colors = Arrays.asList(Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK);
+
         // Konfiguracja ListView graczy
         playerListView.setCellFactory(lv -> new ListCell<String>() {
             @Override 
@@ -54,7 +61,7 @@ public class GameViewController implements Controller {
                     return;
                 } 
                 setText(item);
-                Color color = Utils.getColorById(getIndex() + 1);
+                Color color = colors.get(getIndex());
                 String colorStyle = String.format("-fx-text-fill: rgb(%d, %d, %d);",
                     (int) (color.getRed() * 255),
                     (int) (color.getGreen() * 255),
@@ -110,8 +117,8 @@ public class GameViewController implements Controller {
         }
     }
 
-    public static Board getBoardBuilder() {
-        return boardBuilder;
+    public Board getBoard() {
+        return board;
     }
 
     public void updateTurnLabel(String nickname) {
@@ -119,7 +126,7 @@ public class GameViewController implements Controller {
             turnLabel.setText(nickname + "'s turn");
             int playerIndex = players.indexOf(nickname);
             if (playerIndex >= 0) {
-                Color playerColor = Utils.getColorById(playerIndex + 1);
+                Color playerColor = colors.get(playerIndex);
                 turnLabel.setTextFill(playerColor);
             } else {
                 turnLabel.setTextFill(Color.BLACK);
@@ -138,6 +145,25 @@ public class GameViewController implements Controller {
     public void clearPlayers() {
         players.clear();
         playerListView.getItems().clear();
+    }
+
+    /**
+     * changes color at i-th position
+     * @param i index of color to change
+     * @param color color to set
+     */
+    public void changeColor(int i, Color color){
+        colors.set(i, color);
+        playerListView.refresh();
+    }
+
+    /**
+     * returns index of nickname in playerListView
+     * @param nickname 
+     * @return index of nickname
+     */
+    public int getId(String nickname){
+        return players.indexOf(nickname);
     }
 
     @FXML

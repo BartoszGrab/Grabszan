@@ -1,6 +1,7 @@
 package grab.szan.boards;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import grab.szan.Field;
@@ -13,12 +14,16 @@ public abstract class Board {
     protected int rows, cols;
     protected int[][] dirs;
     protected List<List<Field>> corners;
+    
+    /**maps number of players with list of indexes of corners that can be filled */
+    protected HashMap<Integer, List<Integer>> playersToCornersMap;
 
     public Board(int rows, int cols){
         this.rows = rows;
         this.cols = cols;
         fields = new Field[rows][cols];
         corners = new ArrayList<>();
+        playersToCornersMap = new HashMap<>();
     }
 
     public int[][] getAvailableDirections(){
@@ -62,6 +67,15 @@ public abstract class Board {
 
     public List<Field> getCorner(int i){
         return corners.get(i);
+    }
+
+    /**
+     * returns list of indexes of corners that should be filled when there is numOfPlayers in the game
+     * @param numOfPlayers - number of players in the game
+     * @return List<Integer> representing indexes of corners
+     */
+    public List<Integer> getAvailableCorners(int numOfPlayers){
+        return playersToCornersMap.get(numOfPlayers);
     }
     
 }

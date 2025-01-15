@@ -1,6 +1,7 @@
 package grab.szan.boards;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import grab.szan.Field;
@@ -13,6 +14,11 @@ public class ClassicBoard extends Board{
     public ClassicBoard(){
         super(17, 25);
         dirs = new int[][]{{-1, -1}, {-1, 1}, {0, -2}, {0, 2}, {1, -1}, {1, 1}};
+
+        playersToCornersMap.put(2, Arrays.asList(0, 3));
+        playersToCornersMap.put(3, Arrays.asList(0, 2, 4));
+        playersToCornersMap.put(4, Arrays.asList(1, 2, 4, 5));
+        playersToCornersMap.put(6, Arrays.asList(0, 1, 2, 3, 4, 5));
     }
 
 
@@ -87,10 +93,10 @@ public class ClassicBoard extends Board{
         }
 
         corners.add(upperCorner);
-        corners.add(bottomCorner);
-        corners.add(upperLeftCorner);
-        corners.add(bottomRightCorner);
         corners.add(upperRightCorner);
-        corners.add(bottomLeftCorner);  
+        corners.add(bottomRightCorner);
+        corners.add(bottomCorner);
+        corners.add(bottomLeftCorner);
+        corners.add(upperLeftCorner);
     }
 }
