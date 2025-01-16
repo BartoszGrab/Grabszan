@@ -3,6 +3,7 @@ package grab.szan;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 
@@ -135,6 +136,11 @@ public class Game {
             }
         }
 
+        //after setting up the board we need to update the colors of nicknames for each client
+        for(Player player : players){
+            broadcast("changeColor " + player.getNickname() + " " + player.getId());
+        }
+
         state = GameState.STARTED;
 
         //wylosowanie gracza który rozpoczyna kolejke
@@ -243,13 +249,21 @@ public class Game {
         }
 
         Deque<int[]> deque = new ArrayDeque<>();
+        HashSet<Field> visitedFields = new HashSet<>();
+
         deque.offer(new int[]{startRow, startCol});
 
         //teraz zajmujemy sie przypadkami kiedy 
         while(!deque.isEmpty()){
             int[] curr = deque.poll();
             int x = curr[0], y = curr[1];
+            //check if we already visited that field
+            if(visitedFields.contains(board.getField(x, y))) continue;
+
             if(x == endRow && y == endCol) return true;
+
+            //add this field to visited fields
+            visitedFields.add(board.getField(x, y));
             
             for(int[] nextPos: board.getAvailableDirections()){
                 //przesuwamy sie o 2 miejsca w danym kierunku (stad *2)

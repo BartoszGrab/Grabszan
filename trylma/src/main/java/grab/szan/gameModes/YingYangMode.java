@@ -22,16 +22,20 @@ public class YingYangMode extends ClassicGameMode{
         }
         
         Random rand = new Random();
-        int idx1 = rand.nextInt(6);
+        int idx1 = rand.nextInt(0, 3);
         int idx2 = idx1;
+
+        players.get(0).setId(idx1);
 
         for(Field field: board.getCorner(idx1)){
             field.setPlayer(players.get(0));
         }
 
         while(idx2 == idx1){
-            idx2 = rand.nextInt(6);
+            idx2 = rand.nextInt(3, 6);
         }
+
+        players.get(1).setId(idx2);
 
         for(Field field: board.getCorner(idx2)){
             field.setPlayer(players.get(1));
