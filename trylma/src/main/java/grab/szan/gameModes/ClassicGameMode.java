@@ -23,7 +23,7 @@ public class ClassicGameMode implements GameMode {
         }
 
         if(!getAllowedNumOfPlayers().contains(players.size())){
-            throw new IllegalArgumentException("this game mode can only be played by 2, 3, 4, 5 or 6 players!");
+            throw new IllegalArgumentException("this game mode can only be played by 2, 3, 4 or 6 players!");
         }
         
         List<Integer> availableCorners = board.getAvailableCorners(players.size());
@@ -64,6 +64,6 @@ public class ClassicGameMode implements GameMode {
 
     @Override
     public List<Integer> getAllowedNumOfPlayers() {
-        return new ArrayList<>(Arrays.asList(2, 3, 4, 5, 6));
+        return new ArrayList<>(Arrays.asList(2, 3, 4, 6));
     }
 }
