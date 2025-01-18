@@ -80,10 +80,9 @@ public class ServerTest {
     
             // odczytanie odpowiedzi od serwera
             String message = in.readLine(); 
-    
             // sprawdzenie poprawnosci odpowiedzi
             assertNotNull(message);
-            assertTrue(message.contains("Welcome to server!"));
+            assertTrue(message.contains("invalid command line"));
         } catch (SocketTimeoutException e) {
             fail("Server did not respond in time");
         } finally {

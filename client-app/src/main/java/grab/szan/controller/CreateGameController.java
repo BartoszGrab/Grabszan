@@ -21,7 +21,7 @@ public class CreateGameController implements Controller{
 
     @FXML
     private void initialize() {
-        gameModeChoiceBox.getItems().addAll("Classic", "Ying-Yang", "Order Out Of Chaos");
+        gameModeChoiceBox.getItems().addAll("Classic", "Ying-Yang");
         gameModeChoiceBox.setValue("Classic");
 
         noOfPlayersChoiceBox.getItems().addAll(2, 3, 4, 6);
