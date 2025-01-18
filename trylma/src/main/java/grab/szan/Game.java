@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Random;
 
 import grab.szan.boards.Board;
+import grab.szan.bots.Bot;
+import grab.szan.bots.strategies.NormalBotStrategy;
 import grab.szan.gameModes.GameMode;
 import grab.szan.gameModes.GameModeHandler;
 
@@ -102,7 +104,8 @@ public class Game {
      */
     public void broadcast(String message) {
         for (Player player : players) {
-            player.sendMessage(message);
+            if(!(player instanceof Bot))
+                player.sendMessage(message);
         }
     }
 
@@ -116,9 +119,13 @@ public class Game {
         }
 
         //sprawdzenie czy mamy wystarczająco graczy
-        if(!mode.getAllowedNumOfPlayers().contains(players.size())){
-            broadcast("display Error not enough players to start game");
-            return;
+        while(!mode.getAllowedNumOfPlayers().contains(players.size())){
+            Bot newBot = new Bot();
+            newBot.setStrategy(new NormalBotStrategy());
+            newBot.setActiveGame(this);
+            new Thread(newBot).start();
+            addPlayer(newBot);
+            broadcast("updateList " + newBot.getNickname());
         }
 
         //rozstawienie pionków

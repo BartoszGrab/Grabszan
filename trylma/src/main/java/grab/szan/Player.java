@@ -9,7 +9,7 @@ import java.net.Socket;
 import grab.szan.commands.CommandHandler;
 
 public class Player implements Runnable{
-    private int id;
+    protected int id;
     private Socket socket;
     private BufferedReader in;
     private PrintWriter out;

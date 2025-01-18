@@ -6,6 +6,8 @@ import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
 
+import grab.szan.bots.Bot;
+
 /*
  * klasa reprezentujaca serwer, ktory bedzie wykorzystywal wzorzec singleton
  */
@@ -15,7 +17,7 @@ public class Server {
 
     /*mapowanie <nazwa gry> z <obiekt typu Game> w celu latwego wyszukiwania dostepnych pokojow */
     private static Map<String, Game> games = new HashMap<>();
-    private static final int port = 3006;
+    private final int port = 3006;
     private ServerSocket serverSocket;
     private boolean isRunning;
 
@@ -91,4 +93,7 @@ public class Server {
         server_instance = null;
     }
     
+    public int getPort(){
+        return port;
+    }
 }
