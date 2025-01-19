@@ -3,13 +3,16 @@ package grab.szan.commands;
 import java.util.HashMap;
 
 /**
- * klasa do mapowania poleceń
+ * A class responsible for mapping string commands to their corresponding {@link Command} implementations.
  */
 public class CommandHandler {
     private static CommandHandler commandHandler;
 
     private HashMap<String, Command> commandMap;
 
+    /**
+     * Private constructor initializes the command map with default commands.
+     */
     private CommandHandler(){
         commandMap = new HashMap<>();
         commandMap.put("display", new DisplayCommand());
@@ -22,14 +25,14 @@ public class CommandHandler {
     }
 
     /**
-     * Metoda pozwalająca na pozyskanie instancji obiektu CommandHandler
-     * 
-     * @return instancja CommandHandler
+     * Provides a singleton instance of {@link CommandHandler}.
+     *
+     * @return the singleton CommandHandler instance
      */
     public static CommandHandler getCommandHandler(){
         CommandHandler localHandler = commandHandler;
 
-        //double-checked locking
+        // double-checked locking
         if(localHandler == null){
             synchronized(CommandHandler.class){
                 localHandler = commandHandler;
@@ -41,22 +44,22 @@ public class CommandHandler {
         return commandHandler;
     }
 
-   /**
-    * Metoda do mapowania polecenia w postaci String z 
-    * obiektem typu Command 
-    * @param commandLine - polecenie wpisywane w terminalu
-    * @param executable - obiekt implementujacy Command z metodą execute
-    */
+    /**
+     * Adds a command mapping to the command map.
+     *
+     * @param commandLine the string representing the command
+     * @param executable  the {@link Command} implementation
+     */
     public void addCommand(String commandLine, Command executable){
         commandMap.put(commandLine, executable);
     }
 
-
     /**
-     * Metoda do pozyskiwania obiektu typu Command odpowiadającemu wprowadzonej komendzie
-     * @param commandLine - wprowadzona komenda
-     * @return obiekt typu Command jeśli wprowadzona komenda istnieje
-     * @throws IllegalArgumentException jeślli komenda nie istnieje
+     * Retrieves a {@link Command} object corresponding to the given command string.
+     *
+     * @param commandLine the input command string
+     * @return the {@link Command} if it exists
+     * @throws IllegalArgumentException if the command does not exist in the map
      */
     public Command getCommand(String commandLine){
         if(!commandMap.containsKey(commandLine)){
@@ -64,5 +67,4 @@ public class CommandHandler {
         }
         return commandMap.get(commandLine);
     }
-
 }

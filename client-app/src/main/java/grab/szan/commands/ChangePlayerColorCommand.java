@@ -4,15 +4,24 @@ import grab.szan.controller.GameViewController;
 import grab.szan.controller.ViewManager;
 import grab.szan.utils.Utils;
 
-/**Command responsible for changing color at index i in GameViewController.playerListView so that the color of nickname
- * matches the color of player's pieces on board
-*/
-public class ChangePlayerColorCommand implements Command{
+/**
+ * Command responsible for changing the color of a player's nickname in the {@link GameViewController#playerListView}
+ * so that the nickname color matches the color of the player's pieces on the board.
+ */
+public class ChangePlayerColorCommand implements Command {
 
+    /**
+     * Executes the changeColor command.
+     * <p>
+     * Usage: changeColor &lt;nickname&gt; &lt;color id&gt;
+     *
+     * @param args the command arguments
+     */
     @Override
     public void execute(String[] args) {
         if(args.length < 3){
             Utils.showAlert("Error", "too few arguments usage changeColor <nickname> <color id>");
+            return;
         }
 
         if(!(ViewManager.getController() instanceof GameViewController)){
@@ -27,7 +36,5 @@ public class ChangePlayerColorCommand implements Command{
         } catch(NumberFormatException e){
             e.printStackTrace();
         }
-        
     }
-    
 }
