@@ -31,10 +31,10 @@ Both components work together to create a fully functional Trylma gaming platfor
 
 1. To start using the **Grabszan** project, you need to download the necessary files from the [Releases](https://github.com/BartoszGrab/Grabszan.git) section on GitHub.:
     ### Required Files
-    **trylma-1.0.jar**  
+    **trylma-2.0.jar**  
         The server application responsible for managing the game logic.
    
-    **client-app-1.0.jar**  
+    **client-app-2.0.jar**  
         The client application used to interact with the server.
 
 2. Run the server:
