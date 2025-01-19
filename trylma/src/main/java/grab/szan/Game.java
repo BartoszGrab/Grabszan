@@ -1,9 +1,6 @@
 package grab.szan;
 
-import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Deque;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 
@@ -74,6 +71,7 @@ public class Game {
         random = new Random();
 
         state = GameState.NOTSTARTED;
+        startIndex = 0;
     }
 
     /**
@@ -103,10 +101,12 @@ public class Game {
      * @param message
      */
     public void broadcast(String message) {
-        for (Player player : players) {
-            if(!(player instanceof Bot))
-                player.sendMessage(message);
-        }
+        synchronized(this){
+            for (Player player : players) {
+                if(!(player instanceof Bot))
+                    player.sendMessage(message);
+            }
+        }   
     }
 
     /**
@@ -121,11 +121,17 @@ public class Game {
         //sprawdzenie czy mamy wystarczająco graczy
         while(!mode.getAllowedNumOfPlayers().contains(players.size())){
             Bot newBot = new Bot();
+            broadcast("updateList " + newBot.getNickname());
             newBot.setStrategy(new NormalBotStrategy());
             newBot.setActiveGame(this);
-            new Thread(newBot).start();
             addPlayer(newBot);
-            broadcast("updateList " + newBot.getNickname());
+            new Thread(newBot).start();
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
         }
 
         //rozstawienie pionków
@@ -232,59 +238,6 @@ public class Game {
         }
 
         //jeśli wszystko powyższe jest spełnione i da się dojsć do pola destynacji to zwracamy prawda
-        return isReachable(startRow, startCol, endRow, endCol);
-    }
-    
-    /**
-     * metoda do sprawdzania czy da się dojśc z pozycji startowej do destynacji
-     * @param startRow
-     * @param startCol
-     * @param endRow
-     * @param endCol
-     * @return true jeśli da się dojść do destynacji, false w przeciwnym przypadku
-     */
-    private boolean isReachable(int startRow, int startCol, int endRow, int endCol){
-        //najpierw musimy osobno sprawdzic wszystkie miejsca wokol pozycji startowej
-        for(int[] nextPos: board.getAvailableDirections()){
-            int newRow = startRow + nextPos[0], newCol = startCol + nextPos[1];
-            if(newRow >= board.getRows() || newCol >= board.getCols() || newRow < 0 || newCol < 0) continue;
-
-            //jesli jakies miejsce wokol pozycji startowej jest pozycja koncową to zwracamy true
-            if(newRow == endRow && newCol == endCol){
-                return true;
-            }
-        }
-
-        Deque<int[]> deque = new ArrayDeque<>();
-        HashSet<Field> visitedFields = new HashSet<>();
-
-        deque.offer(new int[]{startRow, startCol});
-
-        //teraz zajmujemy sie przypadkami kiedy 
-        while(!deque.isEmpty()){
-            int[] curr = deque.poll();
-            int x = curr[0], y = curr[1];
-            //check if we already visited that field
-            if(visitedFields.contains(board.getField(x, y))) continue;
-
-            if(x == endRow && y == endCol) return true;
-
-            //add this field to visited fields
-            visitedFields.add(board.getField(x, y));
-            
-            for(int[] nextPos: board.getAvailableDirections()){
-                //przesuwamy sie o 2 miejsca w danym kierunku (stad *2)
-                int newRow = x + nextPos[0]*2, newCol = y + nextPos[1]*2;
-                if(newRow >= board.getRows() || newCol >= board.getCols() || newRow < 0 || newCol < 0) continue;
-                if(board.getField(newRow, newCol) == null) continue;
-
-                //sprawdzamy czy w danym kierunku kolejne miejsce jest zajete i dwa miejsca dalej są puste
-                if(board.getField(x+nextPos[0], y+nextPos[1]).getPlayer() != null && board.getField(newRow, newCol).getPlayer() == null){
-                    deque.offer(new int[]{newRow, newCol});
-                }
-            }
-        }
-
-        return false;
+        return board.getReachableFields(board.getField(startRow, startCol)).contains(board.getField(endRow, endCol));
     }
 }
