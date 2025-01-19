@@ -1,3 +1,6 @@
+/**
+ * Moduł odpowiedzialny za aplikację Grab Szan.
+ */
 module grab.szan {
     requires javafx.controls;
     requires javafx.graphics;

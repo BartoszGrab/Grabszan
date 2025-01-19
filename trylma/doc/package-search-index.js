@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"grab.szan"},{"l":"grab.szan.boards"},{"l":"grab.szan.bots"},{"l":"grab.szan.bots.strategies"},{"l":"grab.szan.commands"},{"l":"grab.szan.gameModes"}];updateSearchResults();
