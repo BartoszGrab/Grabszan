@@ -2,30 +2,35 @@ package grab.szan.boardBuilders;
 
 import java.util.HashMap;
 
+/**
+ * Handles mapping between board names and their corresponding Board objects.
+ */
 public class BoardHandler {
-     private static BoardHandler boardHandler;
-
+    private static BoardHandler boardHandler;
     private HashMap<String, Board> boardMap;
 
-    private BoardHandler(){
+    /**
+     * Private constructor to initialize the board mapping.
+     */
+    private BoardHandler() {
         boardMap = new HashMap<>();
         boardMap.put("Classic", new ClassicBoard());
         boardMap.put("Ying-Yang", new YingYangBoard());
     }
 
     /**
-     * Metoda pozwalająca na pozyskanie instancji obiektu BoardHandler
-     * 
-     * @return instancja BoardHandler
+     * Retrieves the singleton instance of BoardHandler.
+     *
+     * @return the singleton instance of BoardHandler.
      */
-    public static BoardHandler getBoardHandler(){
+    public static BoardHandler getBoardHandler() {
         BoardHandler localHandler = boardHandler;
 
-        //double-checked locking
-        if(localHandler == null){
-            synchronized(BoardHandler.class){
+        // Double-checked locking to ensure thread-safe singleton instantiation.
+        if (localHandler == null) {
+            synchronized (BoardHandler.class) {
                 localHandler = boardHandler;
-                if(localHandler == null){
+                if (localHandler == null) {
                     boardHandler = localHandler = new BoardHandler();
                 }
             }
@@ -33,27 +38,27 @@ public class BoardHandler {
         return boardHandler;
     }
 
-   /**
-    * Metoda do mapowania polecenia w postaci String z 
-    * obiektem typu Board 
-    * @param BoardLine - polecenie wpisywane w terminalu
-    * @param executable - obiekt implementujacy Board z metodą execute
-    */
-    public void addBoard(String BoardLine, Board Board){
-        boardMap.put(BoardLine, Board);
+    /**
+     * Maps a board name to a Board object.
+     *
+     * @param boardName the name of the board.
+     * @param board     the Board object to map.
+     */
+    public void addBoard(String boardName, Board board) {
+        boardMap.put(boardName, board);
     }
 
-
     /**
-     * Metoda do pozyskiwania obiektu typu Board odpowiadającemu wprowadzonej komendzie
-     * @param BoardLine - wprowadzona komenda
-     * @return obiekt typu Board jeśli wprowadzona komenda istnieje
-     * @throws IllegalArgumentException jeślli komenda nie istnieje
+     * Retrieves a Board object associated with a given board name.
+     *
+     * @param boardName the name of the board.
+     * @return the corresponding Board object.
+     * @throws IllegalArgumentException if the board name does not exist in the mapping.
      */
-    public Board getBoard(String BoardLine){
-        if(!boardMap.containsKey(BoardLine)){
-            throw new IllegalArgumentException("invalid Board line");
+    public Board getBoard(String boardName) {
+        if (!boardMap.containsKey(boardName)) {
+            throw new IllegalArgumentException("Invalid board name: " + boardName);
         }
-        return boardMap.get(BoardLine);
+        return boardMap.get(boardName);
     }
 }
