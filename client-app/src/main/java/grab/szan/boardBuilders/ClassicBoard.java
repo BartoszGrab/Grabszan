@@ -8,14 +8,23 @@ import grab.szan.Field;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
+/**
+ * Represents the classic board layout on the client side.
+ * Extends {@link Board} and is responsible for generating
+ * and displaying the classic board fields.
+ */
 public class ClassicBoard extends Board {
 
+    /**
+     * Constructs a ClassicBoard with a predefined color map.
+     * The color map maps integer IDs to specific colors.
+     */
     public ClassicBoard(){
         colorMap = new HashMap<>();
-        //default color
+        // default color (6 stands for an empty field)
         colorMap.put(6, Color.LIGHTBLUE);
-        
-        //player pieces
+
+        // player pieces
         colorMap.put(0, Color.DARKGREEN);
         colorMap.put(1, Color.YELLOWGREEN);
         colorMap.put(2, Color.ORANGE);
@@ -24,13 +33,19 @@ public class ClassicBoard extends Board {
         colorMap.put(5, Color.BLUE);
     }
 
+    /**
+     * Generates and places all the fields for a classic board layout onto the specified {@link Pane}.
+     * This method also constructs the corner lists for later reference.
+     *
+     * @param pane the JavaFX {@link Pane} to which the fields will be added
+     */
     @Override
     public void generateBoard(Pane pane) {
         corners = new ArrayList<>();
         fields = new Field[17][25];
-        double radius = 15; 
+        double radius = 15;
 
-        // Generowanie górnego narożnika
+        // Upper corner
         List<Field> upperCorner  = new ArrayList<>();
         for (int i = 0; i < 4; i++) {
             for (int j = 12 - i; j <= 12 + i; j += 2) {
@@ -40,7 +55,7 @@ public class ClassicBoard extends Board {
             }
         }
 
-        // Generowanie górnego lewego narożnika
+        // Upper left corner
         List<Field> upperLeftCorner = new ArrayList<>();
         for (int i = 4; i <= 7; i++) {
             for (int j = i - 4; j <= 10 - i; j += 2) {
@@ -50,7 +65,7 @@ public class ClassicBoard extends Board {
             }
         }
 
-        // Generowanie górnego prawego narożnika
+        // Upper right corner
         List<Field> upperRightCorner = new ArrayList<>();
         for (int i = 4; i <= 7; i++) {
             for (int j = 14 + i; j <= 28 - i; j += 2) {
@@ -60,7 +75,7 @@ public class ClassicBoard extends Board {
             }
         }
 
-        // Generowanie środkowej części 1.
+        // Middle part 1
         for (int i = 4; i <= 8; i++) {
             for (int j = 12 - i; j <= 12 + i; j += 2) {
                 fields[i][j] = new Field(radius, i, j);
@@ -68,7 +83,7 @@ public class ClassicBoard extends Board {
             }
         }
 
-        // Generowanie środkowej części 2.
+        // Middle part 2
         for (int i = 9; i <= 12; i++) {
             for (int j = i - 4; j <= 28 - i; j += 2) {
                 fields[i][j] = new Field(radius, i, j);
@@ -76,7 +91,7 @@ public class ClassicBoard extends Board {
             }
         }
 
-        // Generowanie dolnego narożnika
+        // Bottom corner
         List<Field> bottomCorner = new ArrayList<>();
         for (int i = 13; i <= 17; i++) {
             for (int j = i - 4; j <= 28 - i; j += 2) {
@@ -86,7 +101,7 @@ public class ClassicBoard extends Board {
             }
         }
 
-        // Generowanie dolnego lewego narożnika
+        // Bottom left corner
         List<Field> bottomLeftCorner = new ArrayList<>();
         for (int i = 9; i <= 12; i++) {
             for (int j = 12 - i; j <= i - 6; j += 2) {
@@ -96,7 +111,7 @@ public class ClassicBoard extends Board {
             }
         }
 
-        // Generowanie dolnego prawego narożnika
+        // Bottom right corner
         List<Field> bottomRightCorner = new ArrayList<>();
         for (int i = 9; i <= 12; i++) {
             for (int j = 30 - i; j <= 12 + i; j += 2) {
@@ -106,7 +121,7 @@ public class ClassicBoard extends Board {
             }
         }
 
-        // Dodanie wszystkich narożników do listy corners
+        // Add all corners to the 'corners' list
         corners.add(upperCorner);
         corners.add(bottomCorner);
         corners.add(upperLeftCorner);
@@ -115,6 +130,13 @@ public class ClassicBoard extends Board {
         corners.add(bottomLeftCorner);
     }
 
+    /**
+     * Retrieves the {@link Field} at the specified row and column.
+     *
+     * @param i the row index
+     * @param j the column index
+     * @return the {@link Field} object, or null if it doesn't exist
+     */
     @Override
     public Field getField(int i, int j) {
         return fields[i][j];

@@ -24,26 +24,27 @@ Both components work together to create a fully functional Trylma gaming platfor
 ## Installation
 
 ### Prerequisites
-Make sure you have **Java 21** or a later version installed on your system. The project requires features available only in Java 21 or higher.
+- Make sure you have **Java 21** or a later version installed on your system. The project requires features available only in Java 21 or higher.
+- JavaFX 21 or a later version is required as well. Ensure you have the corresponding JavaFX SDK installed to support the necessary JavaFX modules.
 
 ### Steps
 
 1. To start using the **Grabszan** project, you need to download the necessary files from the [Releases](https://github.com/BartoszGrab/Grabszan.git) section on GitHub.:
     ### Required Files
-    **trylma-1.0.jar**  
+    **trylma-2.0.jar**  
         The server application responsible for managing the game logic.
    
-    **client-app-1.0.jar**  
+    **client-app-2.0.jar**  
         The client application used to interact with the server.
 
 2. Run the server:
     ```sh
-    java -jar .\trylma-1.0.jar
+    java -jar .\trylma-2.0.jar
     ```
 
-3. Run the client-app:
+3. Run the client-app (Replace [PATH TO FILE] with the file path.):
     ```sh
-    java -jar client-app-1.0.jar <host> <port>
+    java --module-path "C:\[PATH TO FILE]\javafx-sdk-21.0.5\lib" --add-modules javafx.controls,javafx.fxml -jar .\client-app-2.0.jar
     ```
 
 ## Authors

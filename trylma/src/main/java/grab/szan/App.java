@@ -1,12 +1,14 @@
 package grab.szan;
 
 /**
- * Hello world!
- *
+ * Main application class that starts the server.
  */
 public class App 
 {
-    public static void main( String[] args )
+    /**
+     * The main method to run the application and start the server.
+     */
+    public static void main(String[] args)
     {
         Server server = Server.getInstance();
         server.start();

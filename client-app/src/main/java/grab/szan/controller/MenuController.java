@@ -2,8 +2,16 @@ package grab.szan.controller;
 
 import javafx.fxml.FXML;
 
-public class MenuController implements Controller{
+/**
+ * Controller for the main menu view.
+ * Allows navigation to creating a game, joining a game, or exiting the application.
+ */
+public class MenuController implements Controller {
 
+    /**
+     * Called when the user selects "Create Game".
+     * Shows the CreateGameView.
+     */
     @FXML
     private void onCreateGame() {
         try {
@@ -13,6 +21,10 @@ public class MenuController implements Controller{
         }
     }
 
+    /**
+     * Called when the user selects "Join Game".
+     * Shows the JoinGameView.
+     */
     @FXML
     private void onJoinGame() {
         try {
@@ -22,6 +34,10 @@ public class MenuController implements Controller{
         }
     }
 
+    /**
+     * Called when the user selects "Exit".
+     * Exits the application.
+     */
     @FXML
     private void onExit() {
         System.exit(0);

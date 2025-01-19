@@ -9,18 +9,48 @@ import java.util.List;
 
 import grab.szan.Field;
 
-/*
- * abstrakcyjna klasa reprezentujaca plansze do gry
+/**
+ * An abstract class representing a game board. It provides the basic structure 
+ * and utility methods for managing fields, corners, and directions for movement.
  */
 public abstract class Board {
+    
+    /**
+     * A 2D array of Fields representing the board layout.
+     */
     protected Field[][] fields;
-    protected int rows, cols;
+
+    /**
+     * The number of rows in the board.
+     */
+    protected int rows;
+
+    /**
+     * The number of columns in the board.
+     */
+    protected int cols;
+
+    /**
+     * Possible directions in which moves can be made.
+     */
     protected int[][] dirs;
+
+    /**
+     * A list of corner regions on the board, each corner represented as a list of Fields.
+     */
     protected List<List<Field>> corners;
 
-    /**maps number of players with list of indexes of corners that can be filled */
+    /**
+     * Maps the number of players to the indices of corners that should be used for that number of players.
+     */
     protected HashMap<Integer, List<Integer>> playersToCornersMap;
 
+    /**
+     * Constructs a Board with the specified number of rows and columns.
+     *
+     * @param rows the number of rows
+     * @param cols the number of columns
+     */
     public Board(int rows, int cols){
         this.rows = rows;
         this.cols = cols;
@@ -29,21 +59,36 @@ public abstract class Board {
         playersToCornersMap = new HashMap<>();
     }
 
+    /**
+     * Retrieves the available movement directions on this board.
+     *
+     * @return a 2D array of integers representing movement vectors
+     */
     public int[][] getAvailableDirections(){
         return dirs;
     }
 
+    /**
+     * Abstract method that must be implemented to build the board layout.
+     */
     public abstract void generateBoard();
 
+    /**
+     * Returns a textual representation of the board. 
+     * '*' indicates an empty field; a digit indicates a field occupied by the player with that ID.
+     * Empty or null fields are represented by spaces.
+     *
+     * @return a string representing the board
+     */
     public String displayBoard(){
         StringBuilder builder = new StringBuilder();
-        for(int i = 0; i<rows; i++){
-            for(int j = 0; j<cols; j++){
-                if(fields[i][j]==null){
+        for(int i = 0; i < rows; i++){
+            for(int j = 0; j < cols; j++){
+                if(fields[i][j] == null){
                     builder.append(" ");
-                }else if(fields[i][j].getPlayer() != null){
-                    builder.append(""+fields[i][j].getPlayer().getId());
-                }else{
+                } else if(fields[i][j].getPlayer() != null){
+                    builder.append(fields[i][j].getPlayer().getId());
+                } else {
                     builder.append("*");
                 }
             }
@@ -52,50 +97,85 @@ public abstract class Board {
         return builder.toString();
     }
 
+    /**
+     * Gets the entire 2D array of fields for this board.
+     *
+     * @return the fields array
+     */
     public Field[][] getFields() {
         return fields;
     }
 
+    /**
+     * Retrieves a specific field from the board.
+     *
+     * @param row the row index
+     * @param col the column index
+     * @return the field at (row, col), or null if it does not exist
+     */
     public Field getField(int row, int col){
         return fields[row][col];
     }
 
+    /**
+     * Gets the number of rows in the board.
+     *
+     * @return the number of rows
+     */
     public int getRows(){
         return rows;
     }
 
+    /**
+     * Gets the number of columns in the board.
+     *
+     * @return the number of columns
+     */
     public int getCols(){
         return cols;
     }
 
+    /**
+     * Retrieves the list of fields belonging to a particular corner index.
+     *
+     * @param i the corner index
+     * @return the list of fields in that corner
+     */
     public List<Field> getCorner(int i){
         return corners.get(i);
     }
 
     /**
-     * returns list of indexes of corners that should be filled when there is numOfPlayers in the game
-     * @param numOfPlayers - number of players in the game
-     * @return List<Integer> representing indexes of corners
+     * Returns the list of corner indices to be filled for a given number of players.
+     *
+     * @param numOfPlayers the number of players in the game
+     * @return a list of corner indices suitable for the specified number of players
      */
     public List<Integer> getAvailableCorners(int numOfPlayers){
         return playersToCornersMap.get(numOfPlayers);
     }
 
     /**
-     * method to make list of fields you can move to certain position
-     * @param startRow - row of the starting position
-     * @param startCol - column of the starting position
-     * @return List of fields
+     * Generates a list of fields reachable from a given starting field, including
+     * direct moves and jumps.
+     *
+     * @param start the starting Field
+     * @return a list of reachable Fields
      */
     public List<Field> getReachableFields(Field start){
         ArrayList<Field> result = new ArrayList<>();
-        //najpierw musimy osobno sprawdzic wszystkie miejsca wokol pozycji startowej
-        for(int[] nextPos: getAvailableDirections()){
-            int newRow = start.getRow() + nextPos[0], newCol = start.getColumn() + nextPos[1];
-            if(newRow >= getRows() || newCol >= getCols() || newRow < 0 || newCol < 0) continue;
 
-            if(getField(newRow, newCol) != null && getField(newRow, newCol).getPlayer() == null)
+        // First, check all adjacent positions around the starting field
+        for(int[] nextPos: getAvailableDirections()){
+            int newRow = start.getRow() + nextPos[0];
+            int newCol = start.getColumn() + nextPos[1];
+
+            if(newRow >= getRows() || newCol >= getCols() || newRow < 0 || newCol < 0) {
+                continue;
+            }
+            if(getField(newRow, newCol) != null && getField(newRow, newCol).getPlayer() == null) {
                 result.add(getField(newRow, newCol));
+            }
         }
 
         Deque<Field> deque = new ArrayDeque<>();
@@ -103,24 +183,31 @@ public abstract class Board {
 
         deque.offer(start);
 
-        //teraz zajmujemy sie przypadkami kiedy 
+        // Now handle jumps
         while(!deque.isEmpty()){
             Field curr = deque.poll();
-            int x = curr.getRow(), y = curr.getColumn();
-            //check if we already visited that field
-            if(visitedFields.contains(curr)) continue;
+            int x = curr.getRow();
+            int y = curr.getColumn();
 
-            //add this field to visited fields
+            if(visitedFields.contains(curr)) {
+                continue;
+            }
             visitedFields.add(curr);
-            
-            for(int[] nextPos: getAvailableDirections()){
-                //przesuwamy sie o 2 miejsca w danym kierunku (stad *2)
-                int newRow = x + nextPos[0]*2, newCol = y + nextPos[1]*2;
-                if(newRow >= getRows() || newCol >= getCols() || newRow < 0 || newCol < 0) continue;
-                if(getField(newRow, newCol) == null) continue;
 
-                //sprawdzamy czy w danym kierunku kolejne miejsce jest zajete i dwa miejsca dalej są puste
-                if(getField(x+nextPos[0], y+nextPos[1]).getPlayer() != null && getField(newRow, newCol).getPlayer() == null){
+            for(int[] nextPos: getAvailableDirections()){
+                // Move 2 positions in the direction
+                int newRow = x + nextPos[0]*2;
+                int newCol = y + nextPos[1]*2;
+                if(newRow >= getRows() || newCol >= getCols() || newRow < 0 || newCol < 0) {
+                    continue;
+                }
+                if(getField(newRow, newCol) == null) {
+                    continue;
+                }
+
+                // If the adjacent field is occupied and the space beyond is free, jump is possible
+                if(getField(x+nextPos[0], y+nextPos[1]).getPlayer() != null 
+                   && getField(newRow, newCol).getPlayer() == null) {
                     deque.offer(getField(newRow, newCol));
                     result.add(getField(newRow, newCol));
                 }
@@ -129,5 +216,4 @@ public abstract class Board {
 
         return result;
     }
-    
 }

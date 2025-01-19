@@ -5,7 +5,11 @@ import grab.szan.utils.Utils;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 
-public class ConnectingServerController implements Controller{
+/**
+ * Controller responsible for handling the "Connect to Server" view.
+ * Allows the user to input host and port information.
+ */
+public class ConnectingServerController implements Controller {
 
     @FXML
     private TextField hostField;
@@ -13,6 +17,10 @@ public class ConnectingServerController implements Controller{
     @FXML
     private TextField portField;
 
+    /**
+     * Called when the user clicks the connect button.
+     * Attempts to establish a client connection to the server using the provided host and port.
+     */
     @FXML
     private void onConnect() {
         String host = hostField.getText();
@@ -27,10 +35,8 @@ public class ConnectingServerController implements Controller{
             int portNumber = Integer.parseInt(port);
 
             boolean connectionSuccess = connectToServer(host, portNumber);
-
             if (connectionSuccess) {
                 ViewManager.showMenuView();
-                
             } else {
                 Utils.showAlert("Error", "Failed to connect to the server!");
             }
@@ -41,9 +47,15 @@ public class ConnectingServerController implements Controller{
         }
     }
 
+    /**
+     * Attempts to connect the client to the specified host and port.
+     *
+     * @param host the server's host
+     * @param port the server's port
+     * @return true if connection is successful, false otherwise
+     */
     private boolean connectToServer(String host, int port) {
         Client.createClient(host, port);
         return Client.getInstance().start();
     }
-
 }

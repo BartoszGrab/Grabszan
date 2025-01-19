@@ -18,7 +18,12 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
+/**
+ * Controller for the in-game view.
+ * Manages the board display, player list, and turn information.
+ */
 public class GameViewController implements Controller {
+
     @FXML
     private Pane boardPane;
 
@@ -27,54 +32,82 @@ public class GameViewController implements Controller {
 
     @FXML
     private Label turnLabel;
-    
+
+    /**
+     * A list of player nicknames.
+     */
     private final List<String> players = new ArrayList<>();
+
+    /**
+     * The board instance used in this game view.
+     */
     private Board board;
 
-    /**List of colors (color at index i should be a font color of element at index i in playerListView)*/
+    /**
+     * A list of colors where the color at index i should match
+     * the font color for the player at index i in the playerListView.
+     */
     private List<Color> colors;
-    
+
+    /**
+     * The first selected field if a player is in the process of making a move.
+     * If not currently selecting a piece, this will be null.
+     */
     private Field firstField = null;
 
+    /**
+     * Sets the board for this game and generates its fields on the provided Pane.
+     *
+     * @param board the Board to be set
+     */
     public void setBoard(Board board) {
         this.board = board;
         board.generateBoard(boardPane);
     }
 
+    /**
+     * Initializes UI-related aspects, including click handlers and player list styling.
+     */
     public void initialize() {
         Utils.configureUtils();
-        
-        // Rejestrujemy obsługę kliknięć na planszy (Pane)
+
+        // Register click handling on the board
         boardPane.setOnMouseClicked(event -> handleBoardClick(event));
 
-        //at the beggining all colors should be black, we'll later change the colors when the game starts
+        // Initially, all colors are black; they will be updated as needed
         colors = Arrays.asList(Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK);
 
-        // Konfiguracja ListView graczy
+        // Configure playerListView to display each player with a custom color
         playerListView.setCellFactory(lv -> new ListCell<String>() {
-            @Override 
+            @Override
             protected void updateItem(String item, boolean empty) {
                 super.updateItem(item, empty);
                 if (empty || item == null) {
                     setText(null);
                     setStyle("");
                     return;
-                } 
+                }
                 setText(item);
                 Color color = colors.get(getIndex());
                 String colorStyle = String.format("-fx-text-fill: rgb(%d, %d, %d);",
-                    (int) (color.getRed() * 255),
-                    (int) (color.getGreen() * 255),
-                    (int) (color.getBlue() * 255));
+                        (int) (color.getRed() * 255),
+                        (int) (color.getGreen() * 255),
+                        (int) (color.getBlue() * 255));
                 setStyle(colorStyle + "-fx-font-weight: bold;");
             }
         });
     }
 
+    /**
+     * Handles mouse clicks on the board. Differentiates between selecting a player's own piece
+     * and selecting a destination field for a move.
+     *
+     * @param e the MouseEvent triggered by the click
+     */
     private void handleBoardClick(MouseEvent e) {
         Node node = e.getPickResult().getIntersectedNode();
-        
-        // Kliknięcie poza obiektami typu Field – anulowanie wyboru
+
+        // If clicked outside any Field, clear selection
         if (!(node instanceof Field)) {
             if (firstField != null) {
                 firstField.removeHighlight();
@@ -82,34 +115,34 @@ public class GameViewController implements Controller {
             }
             return;
         }
-        
+
         Field clickedField = (Field) node;
-        
-        // Jeśli kliknięto pole, które nie należy do Ciebie, a już masz wybrany pionek,
-        // traktujemy to jako pole docelowe ruchu
+
+        // If clicked field does not belong to the current player but a piece is already selected,
+        // treat this as the destination field for the move
         if (clickedField.getFieldId() != Client.getInstance().getId()) {
             if (firstField != null) {
-                Client.getInstance().sendToServer("move " 
-                        + firstField.getRow() + " " + firstField.getCol() + " " 
+                Client.getInstance().sendToServer("move "
+                        + firstField.getRow() + " " + firstField.getCol() + " "
                         + clickedField.getRow() + " " + clickedField.getCol());
                 firstField.removeHighlight();
                 firstField = null;
             }
             return;
         }
-        
-        // Kliknięto na własny pionek
+
+        // Otherwise, the clicked field belongs to the current player
         if (firstField == null) {
-            // Ustaw zaznaczenie na klikniętym pionku
+            // Highlight the newly selected piece
             firstField = clickedField;
             firstField.highlight();
         } else {
             if (firstField == clickedField) {
-                // Kliknięcie na ten sam pionek – anuluj zaznaczenie
+                // Clicking the same piece again - unselect
                 firstField.removeHighlight();
                 firstField = null;
             } else {
-                // Kliknięto na inny pionek należący do Ciebie – zmień zaznaczenie
+                // Switching selection to a different piece of the current player
                 firstField.removeHighlight();
                 firstField = clickedField;
                 firstField.highlight();
@@ -117,10 +150,21 @@ public class GameViewController implements Controller {
         }
     }
 
+    /**
+     * Gets the board instance used by this controller.
+     *
+     * @return the {@link Board}
+     */
     public Board getBoard() {
         return board;
     }
 
+    /**
+     * Updates the turn label to indicate whose turn it is, changing the text color
+     * to match that player's color if possible.
+     *
+     * @param nickname the nickname of the player whose turn it is
+     */
     public void updateTurnLabel(String nickname) {
         Platform.runLater(() -> {
             turnLabel.setText(nickname + "'s turn");
@@ -133,7 +177,12 @@ public class GameViewController implements Controller {
             }
         });
     }
-    
+
+    /**
+     * Adds a new player to the list of players and updates the UI.
+     *
+     * @param nickname the nickname of the new player
+     */
     public void addPlayer(String nickname) {
         players.add(nickname);
         playerListView.getItems().add(nickname);
@@ -141,16 +190,21 @@ public class GameViewController implements Controller {
             updateTurnLabel(nickname);
         }
     }
-    
+
+    /**
+     * Clears the current list of players and updates the UI.
+     */
     public void clearPlayers() {
         players.clear();
         playerListView.getItems().clear();
     }
 
     /**
-     * changes color at i-th position
-     * @param i index of color to change
-     * @param color color to set
+     * Changes the color for the player at the specified index in the colors list,
+     * then refreshes the ListView to reflect the change.
+     *
+     * @param i     the index of the player
+     * @param color the new {@link Color} to use
      */
     public void changeColor(int i, Color color){
         colors.set(i, color);
@@ -158,25 +212,36 @@ public class GameViewController implements Controller {
     }
 
     /**
-     * returns index of nickname in playerListView
-     * @param nickname 
-     * @return index of nickname
+     * Retrieves the index of a given nickname in the player list.
+     *
+     * @param nickname the player's nickname
+     * @return the index of the nickname or -1 if not found
      */
     public int getId(String nickname){
         return players.indexOf(nickname);
     }
 
+    /**
+     * Sends a "start" command to the server, indicating that the game should begin.
+     */
     @FXML
     private void onStartClick() {
         Utils.showAlert("start", "starting game!");
         Client.getInstance().sendToServer("start");
     }
 
-    @FXML 
+    /**
+     * Sends a "pass" command to the server, indicating that the current player passes their turn.
+     */
+    @FXML
     private void onPassClick() {
         Client.getInstance().sendToServer("pass");
     }
 
+    /**
+     * Displays an alert to indicate the game is exiting.
+     * (The actual exit logic can be implemented as needed.)
+     */
     @FXML
     private void onExitClick() {
         Utils.showAlert("exit", "exiting game!");
