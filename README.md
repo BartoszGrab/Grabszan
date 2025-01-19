@@ -41,9 +41,9 @@ Make sure you have **Java 21** or a later version installed on your system. The 
     java -jar .\trylma-1.0.jar
     ```
 
-3. Run the client-app:
+3. Run the client-app (Replace [PATH TO FILE] with the file path.):
     ```sh
-    java -jar client-app-1.0.jar <host> <port>
+    java --module-path "C:\[PATH TO FILE]\javafx-sdk-21.0.5\lib" --add-modules javafx.controls,javafx.fxml -jar .\client-app-1.0.jar
     ```
 
 ## Authors
