@@ -42,7 +42,9 @@ public class NormalBotStrategy implements BotStrategy{
     @Override
     public Field[] evaluateMoves(Map<Field, List<Field>> moves) {
         for(Map.Entry<Field, List<Field>> entry: moves.entrySet()){
-            return new Field[]{entry.getKey(), entry.getValue().get(0)};
+            if(entry.getValue().size()>0){
+                return new Field[]{entry.getKey(), entry.getValue().get(0)};
+            }
         }
         return null;
     }

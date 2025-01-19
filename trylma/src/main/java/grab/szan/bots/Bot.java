@@ -28,8 +28,13 @@ public class Bot extends Player {
     @Override
     public void run(){
         while (true) {
-            if(getActiveGame().getCurrentPlayer().equals(this)) {
-                strategy.makeMove(this);
+            try {
+                if(getActiveGame().getCurrentPlayer().equals(this)) {
+                    strategy.makeMove(this);
+                }
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
         }
     }

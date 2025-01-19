@@ -112,7 +112,6 @@ public abstract class Board {
 
             //add this field to visited fields
             visitedFields.add(curr);
-            result.add(curr);
             
             for(int[] nextPos: getAvailableDirections()){
                 //przesuwamy sie o 2 miejsca w danym kierunku (stad *2)
@@ -123,6 +122,7 @@ public abstract class Board {
                 //sprawdzamy czy w danym kierunku kolejne miejsce jest zajete i dwa miejsca dalej są puste
                 if(getField(x+nextPos[0], y+nextPos[1]).getPlayer() != null && getField(newRow, newCol).getPlayer() == null){
                     deque.offer(getField(newRow, newCol));
+                    result.add(getField(newRow, newCol));
                 }
             }
         }
