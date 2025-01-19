@@ -5,35 +5,39 @@ import java.util.List;
 import grab.szan.Player;
 import grab.szan.boards.Board;
 
+/**
+ * Interface defining the structure and behavior of a game mode.
+ */
 public interface GameMode {
 
     /**
-     * @return list of integers representing allowed number of players for certain game mode
+     * Returns a list of allowed numbers of players for the game mode.
+     *
+     * @return a list of integers representing allowed player counts.
      */
     public List<Integer> getAllowedNumOfPlayers();
 
     /**
-     * method that returns a board specific for certain game mode
-     * @return new Board object
+     * Returns a board specific to the game mode.
+     *
+     * @return a new Board object.
      */
     public Board getBoard();
 
     /**
-     * Metoda odpowiedzialna za początkowe rozstawienie pionków na planszy
-     * w zależności od trybu gry i liczby graczy.
-     * 
-     * @param board - obiekt reprezentujący planszę do gry
-     * @param players - lista graczy biorących udział w grze
+     * Initializes the pieces on the board based on the game mode and player count.
+     *
+     * @param board   the Board object representing the game board.
+     * @param players the list of players participating in the game.
      */
     public void initializePieces(Board board, List<Player> players);
 
     /**
-     * Metoda sprawdzająca czy istnieje zwycięzca w danej chwili.
-     * Jeżeli istnieje, zwraca gracza, który wygrał, w przeciwnym wypadku null.
-     * 
-     * @param board - obiekt reprezentujący planszę do gry
-     * @param players - lista graczy biorących udział w grze
-     * @return Player który wygrał, lub null jeśli brak zwycięzcy
+     * Checks if there is a winner at the current state of the game.
+     *
+     * @param board   the Board object representing the game board.
+     * @param players the list of players participating in the game.
+     * @return the Player who has won, or null if there is no winner.
      */
     public Player getWinner(Board board, List<Player> players);
 }

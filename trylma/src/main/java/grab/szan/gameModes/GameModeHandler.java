@@ -2,30 +2,36 @@ package grab.szan.gameModes;
 
 import java.util.HashMap;
 
+/**
+ * Handles the management and retrieval of different game modes.
+ */
 public class GameModeHandler {
     private static GameModeHandler gameModeHandler;
 
     private HashMap<String, GameMode> gameModeMap;
 
-    private GameModeHandler(){
+    /**
+     * Private constructor to initialize the game mode mappings.
+     */
+    private GameModeHandler() {
         gameModeMap = new HashMap<>();
         gameModeMap.put("Classic", new ClassicGameMode());
         gameModeMap.put("Ying-Yang", new YingYangMode());
     }
 
     /**
-     * Metoda pozwalająca na pozyskanie instancji obiektu gameModeHandler
-     * 
-     * @return instancja gameModeHandler
+     * Retrieves the singleton instance of GameModeHandler.
+     *
+     * @return the singleton instance of GameModeHandler.
      */
-    public static GameModeHandler getGameModeHandler(){
+    public static GameModeHandler getGameModeHandler() {
         GameModeHandler localHandler = gameModeHandler;
 
-        //double-checked locking
-        if(localHandler == null){
-            synchronized(GameModeHandler.class){
+        // Double-checked locking to ensure thread-safe singleton instantiation.
+        if (localHandler == null) {
+            synchronized (GameModeHandler.class) {
                 localHandler = gameModeHandler;
-                if(localHandler == null){
+                if (localHandler == null) {
                     gameModeHandler = localHandler = new GameModeHandler();
                 }
             }
@@ -33,26 +39,26 @@ public class GameModeHandler {
         return gameModeHandler;
     }
 
-   /**
-    * Metoda do mapowania polecenia w postaci String z 
-    * obiektem typu GameMode 
-    * @param GameModeLine - polecenie wpisywane w terminalu
-    * @param executable - obiekt implementujacy GameMode z metodą execute
-    */
-    public void addGameMode(String gameModeLine, GameMode gameMode){
+    /**
+     * Maps a command string to a GameMode object.
+     *
+     * @param gameModeLine the command string representing the game mode.
+     * @param gameMode     the GameMode object to map.
+     */
+    public void addGameMode(String gameModeLine, GameMode gameMode) {
         gameModeMap.put(gameModeLine, gameMode);
     }
 
-
     /**
-     * Metoda do pozyskiwania obiektu typu GameMode odpowiadającemu wprowadzonej komendzie
-     * @param GameModeLine - wprowadzona komenda
-     * @return obiekt typu GameMode jeśli wprowadzona komenda istnieje
-     * @throws IllegalArgumentException jeślli komenda nie istnieje
+     * Retrieves a GameMode object associated with the given command string.
+     *
+     * @param gameModeLine the command string representing the game mode.
+     * @return the corresponding GameMode object.
+     * @throws IllegalArgumentException if the command string does not exist in the mapping.
      */
-    public GameMode getGameMode(String gameModeLine){
-        if(!gameModeMap.containsKey(gameModeLine)){
-            throw new IllegalArgumentException("invalid GameMode line");
+    public GameMode getGameMode(String gameModeLine) {
+        if (!gameModeMap.containsKey(gameModeLine)) {
+            throw new IllegalArgumentException("Invalid GameMode line");
         }
         return gameModeMap.get(gameModeLine);
     }
