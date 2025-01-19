@@ -187,6 +187,10 @@ public class Game {
         return true;
     }
 
+    public void nextTurn() {
+        currentIndex = (currentIndex + 1) % players.size();
+    }
+    
     /**
      * metoda do sprawdzania poprawności ruchu
      * @param startRow 

@@ -17,6 +17,7 @@ public class CommandHandler {
         commandMap.put("move", new MoveCommand());
         commandMap.put("start", new StartGameCommand());
         commandMap.put("nick", new SetNickCommand());
+        commandMap.put("pass", new PassCommand());
     }
 
     /**

@@ -174,7 +174,7 @@ public class GameViewController implements Controller {
 
     @FXML 
     private void onPassClick() {
-        Utils.showAlert("pass", "pass!");
+        Client.getInstance().sendToServer("pass");
     }
 
     @FXML
