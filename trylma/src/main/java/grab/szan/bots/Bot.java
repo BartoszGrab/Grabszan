@@ -9,7 +9,6 @@ public class Bot extends Player {
 
     public Bot() {
         super(null);
-        setNickname(BotNameGenerator.getRandomName());
     }
 
     @Override

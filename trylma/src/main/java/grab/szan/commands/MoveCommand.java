@@ -1,5 +1,6 @@
 package grab.szan.commands;
 
+import grab.szan.GameState;
 import grab.szan.Player;
 
 /**
@@ -26,6 +27,11 @@ public class MoveCommand implements Command {
         // Check if the player is part of a game
         if(player.getActiveGame() == null){
             player.sendMessage("display Error you are currently not part of any game!");
+            return;
+        }
+
+        if(!player.getActiveGame().getState().equals(GameState.STARTED)) {
+            player.sendMessage("Game has already ended!");
             return;
         }
 

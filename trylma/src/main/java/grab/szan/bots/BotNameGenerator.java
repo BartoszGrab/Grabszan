@@ -16,7 +16,7 @@ public class BotNameGenerator {
         names.add("GotfrydTheGoat");
         names.add("Noobmaster69");
         names.add("mrPawelPl2004");
-        names.add("bot");
+        //names.add("bot");
     }
 
     public static String getRandomName() {

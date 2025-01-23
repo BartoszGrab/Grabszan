@@ -6,6 +6,7 @@ import java.util.Random;
 
 import grab.szan.boards.Board;
 import grab.szan.bots.Bot;
+import grab.szan.bots.BotNameGenerator;
 import grab.szan.bots.strategies.NormalBotStrategy;
 import grab.szan.gameModes.GameMode;
 import grab.szan.gameModes.GameModeHandler;
@@ -72,6 +73,10 @@ public class Game {
         return players.get(id);
     }
 
+    public GameState getState() {
+        return state;
+    }
+
     /**
      * Initializes a game session.
      * 
@@ -105,6 +110,14 @@ public class Game {
             players.add(player);
             player.setId(players.size());
             return true;
+        }
+        return false;
+    }
+
+    public boolean nicknameExists(String nickname) {
+        for(Player player : players) {
+            if(player.getNickname().equals(nickname))
+                return true;
         }
         return false;
     }
@@ -143,13 +156,18 @@ public class Game {
 
         // Ensure there are enough players.
         while (players.size() < maxPlayers) {
+            String nickname = BotNameGenerator.getRandomName();
+            if(nicknameExists(nickname)) continue;
+            
             Bot newBot = new Bot();
+            newBot.setNickname(nickname);
+
             broadcast("updateList " + newBot.getNickname());
 
             newBot.setStrategy(new NormalBotStrategy());
             newBot.setActiveGame(this);
 
-            if(!addPlayer(newBot)) continue;
+            addPlayer(newBot);
 
             new Thread(newBot).start();
             try {
@@ -213,7 +231,8 @@ public class Game {
 
         Player winner = mode.getWinner(board, players);
         if (winner != null) {
-            broadcast("display Game-finished! Player " + winner.getId() + " won");
+            broadcast("display Game-finished! Player " + winner.getNickname() + " won");
+            state = GameState.ENDED;
         } else {
             broadcast("updateTurn " + players.get(currentIndex).getNickname());
         }
