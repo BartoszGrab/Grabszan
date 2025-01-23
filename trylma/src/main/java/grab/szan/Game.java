@@ -142,12 +142,15 @@ public class Game {
         }
 
         // Ensure there are enough players.
-        while (!mode.getAllowedNumOfPlayers().contains(players.size())) {
+        while (players.size() < maxPlayers) {
             Bot newBot = new Bot();
             broadcast("updateList " + newBot.getNickname());
+
             newBot.setStrategy(new NormalBotStrategy());
             newBot.setActiveGame(this);
-            addPlayer(newBot);
+
+            if(!addPlayer(newBot)) continue;
+
             new Thread(newBot).start();
             try {
                 Thread.sleep(100);

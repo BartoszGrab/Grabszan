@@ -6,6 +6,8 @@ import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
 
+import grab.szan.bots.BotNameGenerator;
+
 /**
  * Represents the server, implemented as a singleton pattern.
  */
@@ -40,6 +42,7 @@ public class Server {
      * Private constructor to prevent instantiation from outside this class.
      */
     private Server(){
+        BotNameGenerator.configure();
     }
 
     /**

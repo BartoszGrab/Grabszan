@@ -216,4 +216,51 @@ public abstract class Board {
 
         return result;
     }
+
+    /**
+     * method to access list of fields in the destination corner of player with given id
+     * @param id - id of player
+     * @return list of fields
+     */
+    public List<Field> getDestinationCorner(int id){
+        return corners.get((id+3)%6);
+    }
+
+    /**
+     * method to calculate distance between 2 fields
+     * @param start - first field
+     * @param end - second field
+     * @return - distance between those fields
+     */
+    public int countDistance(Field start, Field end){
+        int difRow = Math.abs(start.getRow() - end.getRow());
+        int difCol = Math.abs(start.getColumn() - end.getColumn())/2;
+        return difRow + difCol;
+    }
+
+    /**
+     * method to calculate score of move made by player
+     * @param id - id of player who made the move
+     * @param start - field from which player moves
+     * @param end - field where player moves to
+     * @return score of this move
+     */
+    public int moveScore(int id, Field start, Field end) {
+        List<Field> destinationCorner = getDestinationCorner(id);
+        int max = Integer.MIN_VALUE;
+        for(Field destination : destinationCorner) {
+            int score = countDistance(start, destination) -  countDistance(end, destination);
+            if(destinationCorner.contains(start)) {
+                score /= 2;
+                if(!destinationCorner.contains(end)){
+                    score /= 2;
+                }
+            }
+            else if(destinationCorner.contains(end))
+                score += 2;
+
+            max = Math.max(max, score);
+        }
+        return max;
+    }
 }
