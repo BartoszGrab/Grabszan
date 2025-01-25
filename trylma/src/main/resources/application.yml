@@ -1,0 +1,12 @@
+spring:
+  datasource:
+    url: jdbc:mariadb://localhost:3306/trylma_db
+    username: trylma_user
+    password: trylma_password
+    driver-class-name: org.mariadb.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate.format_sql: true

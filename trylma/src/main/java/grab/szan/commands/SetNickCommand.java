@@ -1,7 +1,10 @@
 package grab.szan.commands;
 
+import org.springframework.stereotype.Component;
+
 import grab.szan.Player;
 
+@Component
 public class SetNickCommand  implements Command{
 
     @Override

@@ -2,13 +2,14 @@ package grab.szan.bots;
 
 import grab.szan.Player;
 import grab.szan.bots.strategies.BotStrategy;
+import grab.szan.commands.CommandHandler;
 
 /**class representing Bot player */
 public class Bot extends Player {
     private BotStrategy strategy;
 
-    public Bot() {
-        super(null);
+    public Bot(CommandHandler commandHandler) {
+        super(commandHandler);
     }
 
     @Override

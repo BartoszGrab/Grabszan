@@ -2,16 +2,22 @@ package grab.szan.commands;
 
 import grab.szan.GameState;
 import grab.szan.Player;
+import grab.szan.spring.services.MoveService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
- * A command that handles a player's move in the game.
+ * Command to handle a player's move.
  */
+@Component
 public class MoveCommand implements Command {
+
+    @Autowired
+    private MoveService moveService;
 
     /**
      * Executes the move command.
-     * <p>
-     * Usage: move &lt;start_row&gt; &lt;start_col&gt; &lt;end_row&gt; &lt;end_col&gt;
+     * Usage: move <start_row> <start_col> <end_row> <end_col>
      *
      * @param args   the command arguments
      * @param player the player issuing the command
@@ -50,12 +56,25 @@ public class MoveCommand implements Command {
 
             // Attempt to move the piece
             if(player.getActiveGame().moveCurrentPlayer(startRow, startCol, endRow, endCol)){
+                // Record the move in the database
+                moveService.recordMove(
+                    player.getActiveGame().getRoom(),
+                    player.getId(),
+                    startRow,
+                    startCol,
+                    endRow,
+                    endCol
+                );
+
+                // Inform all players about the move
                 player.getActiveGame().broadcast("set " + startRow + " " + startCol + " " + 6);
                 player.getActiveGame().broadcast("set " + endRow + " " + endCol + " " + player.getId());
             }
 
         } catch(NumberFormatException e){
             player.sendMessage("arguments should be integers");
+        } catch(IllegalArgumentException e){
+            player.sendMessage("display " + e.getMessage());
         }
     }
 }

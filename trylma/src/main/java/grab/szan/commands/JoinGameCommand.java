@@ -1,18 +1,25 @@
 package grab.szan.commands;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import grab.szan.Game;
 import grab.szan.Player;
-import grab.szan.Server;
+import grab.szan.spring.services.GameService;
 
 /**
  * A command that allows a player to join an existing game by name and set their nickname.
  */
+@Component
 public class JoinGameCommand implements Command {
+
+    @Autowired
+    private GameService gameService;
 
     /**
      * Executes the join game command.
      * <p>
-     * Usage: join &lt;roomName&gt; &lt;nickname&gt;
+     * Usage: join <roomName> <nickname>
      *
      * @param args   the command arguments
      * @param player the player issuing the command
@@ -21,51 +28,54 @@ public class JoinGameCommand implements Command {
     public void execute(String[] args, Player player) {
         // Validate arguments
         if (args.length < 3) {
-            player.sendMessage("display Error Game name and nickname is required to join.");
+            player.sendMessage("display Error: Game name and nickname are required to join.");
             return;
         }
 
         String roomName = args[1];
-        Server server = Server.getInstance();
+        String nickname = args[2];
 
         // Check if the specified game exists
-        if (!server.gameExists(roomName)) {
-            player.sendMessage("display Error Game room '" + roomName + "' does not exist.");
+        if (!gameService.gameExists(roomName)) {
+            player.sendMessage("display Error: Game room '" + roomName + "' does not exist.");
             return;
         }
 
-        // Retrieve the game from the server
-        Game game = server.getGame(roomName);
+        // Retrieve the game from the GameService
+        Game game = gameService.getGame(roomName);
+
+        if (game == null) {
+            player.sendMessage("display Error: Failed to retrieve the game '" + roomName + "'.");
+            return;
+        }
 
         // Check for duplicate nickname
-        for(Player p: game.getPlayers()){
-            if(p.getNickname().equals(args[2])){
-                player.sendMessage("display Error player with this nickname exists");
+        for (Player p : game.getPlayers()) {
+            if (p.getNickname().equalsIgnoreCase(nickname)) {
+                player.sendMessage("display Error: A player with this nickname already exists.");
                 return;
             }
         }
 
-        // Try to add the player to the game
-        if (game.addPlayer(player)) {
-            player.sendMessage("display Success You have joined the game '" + roomName + "'.");
+        // Try to add the player to the game via GameService
+        boolean playerAdded = gameService.addPlayerToGame(game, player);
+        if (playerAdded) {
+            player.sendMessage("display Success: You have joined the game '" + roomName + "'.");
             player.setActiveGame(game);
-            player.setNickname(args[2]);
+            player.setNickname(nickname);
 
-            StringBuilder commandBuilder = new StringBuilder();
-
-            for(int i = 0; i < game.getPlayers().size()-1; i++){
-                commandBuilder.append(game.getPlayer(i).getNickname()).append(" ");
-            }
-
-            // Update list of players for each player in the game
-            game.broadcast("updateList " + player.getNickname());
+            // Optionally, update other players about the new player
+            game.broadcast("updateList " + nickname);
 
             // Send information about accepting join request
             // acceptJoin <gameType> <room name> <player Id> <players> <nickname>
-            player.sendMessage("acceptJoin " + game.getGameType() + " " + roomName + " " + player.getId() + " " + commandBuilder.toString() + player.getNickname());
-
+            StringBuilder playersList = new StringBuilder();
+            for (Player p : game.getPlayers()) {
+                playersList.append(p.getNickname()).append(" ");
+            }
+            player.sendMessage("acceptJoin " + game.getGameType() + " " + roomName + " " + player.getId() + " " + playersList.toString().trim() + " " + nickname);
         } else {
-            player.sendMessage("display Error Game '" + roomName + "' is full.");
+            player.sendMessage("display Error: Game '" + roomName + "' is full.");
         }
     }
 }
