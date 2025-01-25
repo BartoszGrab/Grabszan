@@ -10,6 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import grab.szan.Game;
+import grab.szan.GameState;
 import grab.szan.Player;
 import grab.szan.Server;
 import grab.szan.commands.MoveCommand;
@@ -51,6 +52,11 @@ public class MoveCommandTest {
         @Override
         public void broadcast(String message) {
             broadcasts.add(message);
+        }
+
+        @Override
+        public GameState getState() {
+            return GameState.STARTED;
         }
     }
 
