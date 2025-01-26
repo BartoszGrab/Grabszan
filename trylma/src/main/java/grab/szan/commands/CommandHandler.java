@@ -1,67 +1,45 @@
 package grab.szan.commands;
 
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
- * klasa do mapowania poleceń
+ * Handles mapping of command names to Command instances.
  */
+@Component
 public class CommandHandler {
-    private static CommandHandler commandHandler;
 
-    private HashMap<String, Command> commandMap;
+    private final Map<String, Command> commandMap = new HashMap<>();
 
-    private CommandHandler(){
-        commandMap = new HashMap<>();
-        commandMap.put("create",  new CreateGameCommand());
-        commandMap.put("join", new JoinGameCommand());
-        commandMap.put("move", new MoveCommand());
-        commandMap.put("start", new StartGameCommand());
-        commandMap.put("nick", new SetNickCommand());
-        commandMap.put("pass", new PassCommand());
-    }
-
-    /**
-     * Metoda pozwalająca na pozyskanie instancji obiektu CommandHandler
-     * 
-     * @return instancja CommandHandler
-     */
-    public static CommandHandler getCommandHandler(){
-        CommandHandler localHandler = commandHandler;
-
-        //double-checked locking
-        if(localHandler == null){
-            synchronized(CommandHandler.class){
-                localHandler = commandHandler;
-                if(localHandler == null){
-                    commandHandler = localHandler = new CommandHandler();
-                }
+    @Autowired
+    public CommandHandler(List<Command> commands) {
+        for (Command c : commands) {
+            String simpleName = c.getClass().getSimpleName().toLowerCase();
+            if (simpleName.contains("creategame")) {
+                commandMap.put("create", c);
+            } else if (simpleName.contains("joingame")) {
+                commandMap.put("join", c);
+            } else if (simpleName.contains("move")) {
+                commandMap.put("move", c);
+            } else if (simpleName.contains("startgame")) {
+                commandMap.put("start", c);
+            } else if (simpleName.contains("setnick")) {
+                commandMap.put("nick", c);
+            } else if (simpleName.contains("pass")) {
+                commandMap.put("pass", c);
             }
         }
-        return commandHandler;
     }
 
-   /**
-    * Metoda do mapowania polecenia w postaci String z 
-    * obiektem typu Command 
-    * @param commandLine - polecenie wpisywane w terminalu
-    * @param executable - obiekt implementujacy Command z metodą execute
-    */
-    public void addCommand(String commandLine, Command executable){
-        commandMap.put(commandLine, executable);
-    }
-
-
-    /**
-     * Metoda do pozyskiwania obiektu typu Command odpowiadającemu wprowadzonej komendzie
-     * @param commandLine - wprowadzona komenda
-     * @return obiekt typu Command jeśli wprowadzona komenda istnieje
-     * @throws IllegalArgumentException jeślli komenda nie istnieje
-     */
-    public Command getCommand(String commandLine){
-        if(!commandMap.containsKey(commandLine)){
+    public Command getCommand(String name) {
+        Command cmd = commandMap.get(name.toLowerCase());
+        if (cmd == null) {
             throw new IllegalArgumentException("invalid command line");
         }
-        return commandMap.get(commandLine);
+        return cmd;
     }
-
 }

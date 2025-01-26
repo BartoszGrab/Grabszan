@@ -2,14 +2,15 @@ package grab.szan.commands;
 
 import grab.szan.Player;
 
-/*
- * interfejs komendy
+/**
+ * Interface for command pattern.
  */
-public interface Command{
-  /**
-   * Metoda wykonująca komende
-   * @param args - lista parametrów potrzebnych do wykonania komendy
-   * @param player - klient który wysłał komende
-   */
+public interface Command {
+    /**
+     * Executes the command.
+     *
+     * @param args   the command arguments
+     * @param player the player issuing the command
+     */
     public void execute(String[] args, Player player);
 }

@@ -1,11 +1,14 @@
 package grab.szan.commands;
 
+import org.springframework.stereotype.Component;
+
 import grab.szan.Game;
 import grab.szan.Player;
 
 /**
  * A command that allows a player to pass their turn in the game.
  */
+@Component
 public class PassCommand implements Command {
 
     /**
