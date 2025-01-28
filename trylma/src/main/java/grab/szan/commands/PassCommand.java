@@ -42,4 +42,9 @@ public class PassCommand implements Command {
         // Notify all players of the turn change
         game.broadcast("updateTurn " + game.getCurrentPlayer().getNickname());
     }
+
+    @Override
+    public String getName() {
+        return "pass";
+    }
 }

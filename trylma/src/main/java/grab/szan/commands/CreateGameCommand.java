@@ -5,10 +5,12 @@ import org.springframework.stereotype.Component;
 
 import grab.szan.Game;
 import grab.szan.Player;
+import grab.szan.bots.strategies.NormalBotStrategy;
 import grab.szan.database.entities.GameEntity;
 import grab.szan.gameModes.GameMode;
 import grab.szan.gameModes.GameModeHandler;
 import grab.szan.spring.services.GameService;
+import grab.szan.spring.services.MoveService;
 
 /**
  * Command to create a new game.
@@ -18,6 +20,9 @@ public class CreateGameCommand implements Command {
 
     @Autowired
     private GameService gameService;
+
+    @Autowired
+    private MoveService moveService;
 
     @Override
     public void execute(String[] args, Player player) {
@@ -49,7 +54,7 @@ public class CreateGameCommand implements Command {
         }
 
         // Create a new Game object
-        Game game = new Game(gameName, maxPlayers, args[4], null);
+        Game game = new Game(gameName, maxPlayers, args[4], new NormalBotStrategy(moveService));
 
         // Add the game to the registry
         boolean added = gameService.addGame(game);
@@ -70,12 +75,17 @@ public class CreateGameCommand implements Command {
         player.setNickname(args[3]);
 
         // Save the game to DB
-        GameEntity createdEntity = gameService.createNewGame(gameName, maxPlayers);
+        GameEntity createdEntity = gameService.createNewGame(gameName, args[4],  maxPlayers);
         game.setGameEntityId(createdEntity.getId());
 
         // Final messages
         player.sendMessage("acceptJoin " + args[4] + " " + gameName + " " + player.getId() + " " + args[3]);
         player.sendMessage("display Success created new game: " + gameName
                            + " with maximum number of players: " + maxPlayers);
+    }
+
+    @Override
+    public String getName() {
+        return "create";
     }
 }

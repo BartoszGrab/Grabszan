@@ -13,4 +13,6 @@ public interface Command {
      * @param player the player issuing the command
      */
     public void execute(String[] args, Player player);
+
+    public String getName();
 }

@@ -7,11 +7,18 @@ import java.util.Map;
 import grab.szan.Field;
 import grab.szan.boards.Board;
 import grab.szan.bots.Bot;
+import grab.szan.spring.services.MoveService;
 
 public class NormalBotStrategy implements BotStrategy{
 
     private Bot bot;
     private Board board;
+
+    private MoveService moveService;
+
+    public NormalBotStrategy(MoveService moveService) {
+        this.moveService = moveService;
+    }
 
     @Override
     public void makeMove(Bot bot) {
@@ -39,6 +46,7 @@ public class NormalBotStrategy implements BotStrategy{
         endRow = bestMove[1].getRow();
         endCol = bestMove[1].getColumn();
 
+        moveService.recordMove(bot.getActiveGame().getRoom(), bot.getId(), startRow, startCol, endRow, endCol);
         bot.getActiveGame().broadcast("set " + startRow + " " + startCol + " " + 6);
         bot.getActiveGame().broadcast("set " + endRow + " " + endCol + " " + bot.getId());
         bot.getActiveGame().moveCurrentPlayer(startRow, startCol, endRow, endCol);

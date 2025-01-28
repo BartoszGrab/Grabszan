@@ -66,10 +66,11 @@ public class GameService {
     /**
      * Saves a new game row in DB.
      */
-    public GameEntity createNewGame(String roomName, int maxPlayers) {
+    public GameEntity createNewGame(String roomName, String gameMode, int maxPlayers) {
         GameEntity entity = new GameEntity();
         entity.setRoomName(roomName);
         entity.setMaxPlayers(maxPlayers);
+        entity.setGameMode(gameMode);
         entity.setStartTime(LocalDateTime.now());
         // endTime can remain null until game is finished
         return gameRepository.save(entity);

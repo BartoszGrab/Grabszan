@@ -19,6 +19,9 @@ public class GameEntity {
     @Column(nullable = false, unique = true)
     private String roomName;
 
+    @Column(nullable = false) 
+    private String gameMode;
+
     @Column(nullable = false)
     private int maxPlayers;
 
@@ -33,10 +36,11 @@ public class GameEntity {
     // Constructors
     public GameEntity() {}
 
-    public GameEntity(String roomName, int maxPlayers, LocalDateTime startTime) {
+    public GameEntity(String roomName, String gameMode, int maxPlayers, LocalDateTime startTime) {
         this.roomName = roomName;
         this.maxPlayers = maxPlayers;
         this.startTime = startTime;
+        this.gameMode = gameMode;
     }
 
     public Long getId() {
@@ -49,6 +53,14 @@ public class GameEntity {
 
     public void setRoomName(String roomName) {
         this.roomName = roomName;
+    }
+
+    public String getGameMode() {
+        return gameMode;
+    }
+
+    public void setGameMode(String gameMode) {
+        this.gameMode = gameMode;
     }
 
     public int getMaxPlayers() {
