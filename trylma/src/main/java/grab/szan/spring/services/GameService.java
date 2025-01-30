@@ -75,4 +75,31 @@ public class GameService {
         // endTime can remain null until game is finished
         return gameRepository.save(entity);
     }
+
+    /**
+     * return game mode for game with specific name
+     * @param room 
+     * @return 
+     */
+    public String getGameType(String room) {
+        if(gameRepository.findByRoomName(room) == null) {
+            throw new IllegalArgumentException("invalid room name");
+        }
+        return gameRepository.findByRoomName(room).getGameMode();
+    }
+
+    public int getMaximumPlayers(String room) {
+        if(gameRepository.findByRoomName(room) == null) {
+            throw new IllegalArgumentException("invalid room name");
+        }
+        return gameRepository.findByRoomName(room).getMaxPlayers();
+    }
+
+    public boolean gameExistsInDB(String room) {
+        if(gameRepository.findByRoomName(room) == null) {
+            return false;
+        }
+
+        return true;
+    }
 }
