@@ -54,9 +54,7 @@ public class AcceptJoinCommand implements Command {
                     // Set up board for the chosen game mode
                     gameController.setBoard(BoardHandler.getBoardHandler().getBoard(gameType));
 
-                    for (int i = 4; i < args.length; i++) {
-                        gameController.addPlayer(args[i]);
-                    }
+                    gameController.addPlayer(args[4]);
                 } catch (IOException e) {
                     e.printStackTrace();
                     Utils.showAlert("Error", "Unknown error while displaying game view");

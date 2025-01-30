@@ -7,7 +7,7 @@ import java.util.Random;
 import grab.szan.boards.Board;
 import grab.szan.bots.Bot;
 import grab.szan.bots.BotNameGenerator;
-import grab.szan.bots.strategies.NormalBotStrategy;
+import grab.szan.bots.strategies.BotStrategy;
 import grab.szan.commands.CommandHandler;
 import grab.szan.gameModes.GameMode;
 import grab.szan.gameModes.GameModeHandler;
@@ -28,6 +28,7 @@ public class Game {
     private GameState state;
 
     private CommandHandler commandHandler;
+    private BotStrategy botStrategy;
 
     private int startIndex;    // Index of the player who starts the turn.
     private Random random;
@@ -40,11 +41,11 @@ public class Game {
      * @param maxPlayers the maximum number of players.
      * @param gameType   the type of the game.
      */
-    public Game(String room, int maxPlayers, String gameType, CommandHandler commandHandler) {
+    public Game(String room, int maxPlayers, String gameType, BotStrategy strategy) {
         this.room = room;
         this.maxPlayers = maxPlayers;
         this.gameType = gameType;
-        this.commandHandler = commandHandler;
+        this.botStrategy = strategy;
 
         players = new ArrayList<>();
         state = GameState.NOTSTARTED;
@@ -149,7 +150,7 @@ public class Game {
 
             broadcast("updateList " + newBot.getNickname());
 
-            newBot.setStrategy(new NormalBotStrategy());
+            newBot.setStrategy(botStrategy);
             newBot.setActiveGame(this);
 
             addPlayer(newBot);

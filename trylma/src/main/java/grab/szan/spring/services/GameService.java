@@ -66,12 +66,40 @@ public class GameService {
     /**
      * Saves a new game row in DB.
      */
-    public GameEntity createNewGame(String roomName, int maxPlayers) {
+    public GameEntity createNewGame(String roomName, String gameMode, int maxPlayers) {
         GameEntity entity = new GameEntity();
         entity.setRoomName(roomName);
         entity.setMaxPlayers(maxPlayers);
+        entity.setGameMode(gameMode);
         entity.setStartTime(LocalDateTime.now());
         // endTime can remain null until game is finished
         return gameRepository.save(entity);
+    }
+
+    /**
+     * return game mode for game with specific name
+     * @param room 
+     * @return 
+     */
+    public String getGameType(String room) {
+        if(gameRepository.findByRoomName(room) == null) {
+            throw new IllegalArgumentException("invalid room name");
+        }
+        return gameRepository.findByRoomName(room).getGameMode();
+    }
+
+    public int getMaximumPlayers(String room) {
+        if(gameRepository.findByRoomName(room) == null) {
+            throw new IllegalArgumentException("invalid room name");
+        }
+        return gameRepository.findByRoomName(room).getMaxPlayers();
+    }
+
+    public boolean gameExistsInDB(String room) {
+        if(gameRepository.findByRoomName(room) == null) {
+            return false;
+        }
+
+        return true;
     }
 }

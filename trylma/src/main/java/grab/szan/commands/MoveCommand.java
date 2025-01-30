@@ -77,4 +77,9 @@ public class MoveCommand implements Command {
             player.sendMessage("display " + e.getMessage());
         }
     }
+
+    @Override
+    public String getName() {
+        return "move";
+    }
 }

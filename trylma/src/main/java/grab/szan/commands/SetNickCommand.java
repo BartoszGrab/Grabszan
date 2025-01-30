@@ -16,5 +16,10 @@ public class SetNickCommand  implements Command{
 
         player.setNickname(args[1]);
     }
-    
+
+    @Override
+    public String getName() {
+        return "nick";
+    }
+
 }

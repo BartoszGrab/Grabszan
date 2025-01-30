@@ -3,6 +3,7 @@ package grab.szan.controller;
 import java.io.IOException;
 
 import grab.szan.Client;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -101,6 +102,23 @@ public class ViewManager {
         String roomName = Client.getInstance().getRoomName();
         String nickname = Client.getInstance().getNickname();
         primaryStage.setTitle(roomName + " " + nickname);
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
+    public static void showChooseReplayView() throws IOException {
+        FXMLLoader loader = new FXMLLoader(ViewManager.class.getResource("/grab/szan/view/ChooseReplayView.fxml"));
+        Scene scene = new Scene(loader.load());
+        currentController = loader.getController();
+        primaryStage.setScene(scene);
+        primaryStage.setTitle("choose game to replay");
+        primaryStage.show();
+    }
+
+    public static void showReplayView() throws IOException{
+        FXMLLoader loader = new FXMLLoader(ViewManager.class.getResource("/grab/szan/view/ReplayView.fxml"));
+        Scene scene = new Scene(loader.load());
+        currentController = loader.getController();
         primaryStage.setScene(scene);
         primaryStage.show();
     }

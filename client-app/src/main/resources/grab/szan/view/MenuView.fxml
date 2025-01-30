@@ -23,6 +23,11 @@
             <Font name="Arial Bold" size="24.0" />
          </font>
       </Button>
+      <Button minHeight="50.0" minWidth="200.0" mnemonicParsing="false" onAction="#onReplayGame" style="-fx-background-color: #ADD8E6;" text="Replay game">
+         <font>
+            <Font name="Arial Bold" size="24.0" />
+         </font>
+      </Button>
       <Button minHeight="50.0" minWidth="200.0" mnemonicParsing="false" onAction="#onExit" style="-fx-background-color: #DC143C;" text="EXIT">
          <font>
             <Font name="Arial Bold" size="24.0" />

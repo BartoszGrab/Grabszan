@@ -78,4 +78,9 @@ public class JoinGameCommand implements Command {
             player.sendMessage("display Error: Game '" + roomName + "' is full.");
         }
     }
+
+    @Override
+    public String getName() {
+        return "join";
+    }
 }

@@ -22,6 +22,7 @@ public class CommandHandler {
         commandMap.put("updateTurn", new UpdateTurnCommand());
         commandMap.put("setId", new SetIdCommand());
         commandMap.put("changeColor", new ChangePlayerColorCommand());
+        commandMap.put("acceptReplay", new AcceptReplayCommand());
     }
 
     /**

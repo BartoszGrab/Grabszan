@@ -1,6 +1,7 @@
 package grab.szan.boardBuilders;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -15,6 +16,7 @@ import javafx.scene.paint.Color;
  */
 public class ClassicBoard extends Board {
 
+    HashMap<Integer, List<Integer>> playersToCornersMap;
     /**
      * Constructs a ClassicBoard with a predefined color map.
      * The color map maps integer IDs to specific colors.
@@ -31,6 +33,12 @@ public class ClassicBoard extends Board {
         colorMap.put(3, Color.RED);
         colorMap.put(4, Color.PURPLE);
         colorMap.put(5, Color.BLUE);
+
+        playersToCornersMap = new HashMap<>();
+        playersToCornersMap.put(2, Arrays.asList(0, 3));
+        playersToCornersMap.put(3, Arrays.asList(0, 2, 4));
+        playersToCornersMap.put(4, Arrays.asList(1, 2, 4, 5));
+        playersToCornersMap.put(6, Arrays.asList(0, 1, 2, 3, 4, 5));
     }
 
     /**
@@ -123,11 +131,11 @@ public class ClassicBoard extends Board {
 
         // Add all corners to the 'corners' list
         corners.add(upperCorner);
-        corners.add(bottomCorner);
-        corners.add(upperLeftCorner);
-        corners.add(bottomRightCorner);
         corners.add(upperRightCorner);
+        corners.add(bottomRightCorner);
+        corners.add(bottomCorner);
         corners.add(bottomLeftCorner);
+        corners.add(upperLeftCorner);
     }
 
     /**
@@ -140,5 +148,17 @@ public class ClassicBoard extends Board {
     @Override
     public Field getField(int i, int j) {
         return fields[i][j];
+    }
+
+    @Override
+    public void initializePieces(int numOfPlayers) {
+        List<Integer> cornerIndex = playersToCornersMap.get(numOfPlayers);
+
+        for(int idx : cornerIndex) {
+            List<Field> corner = corners.get(idx);
+            for(Field field : corner) {
+                field.setFill(getColor(idx));
+            }
+        }
     }
 }

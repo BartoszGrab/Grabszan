@@ -4,6 +4,9 @@ import grab.szan.database.entities.GameEntity;
 import grab.szan.database.entities.MoveEntity;
 import grab.szan.database.repositories.GameRepository;
 import grab.szan.database.repositories.MoveRepository;
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -51,5 +54,10 @@ public class MoveService {
 
         // Save the move to the database
         moveRepository.save(move);
+    }
+
+    public List<MoveEntity> getMoves(String roomName) {
+        GameEntity gameEntity = gameRepository.findByRoomName(roomName);
+        return moveRepository.findByGame_Id(gameEntity.getId());
     }
 }

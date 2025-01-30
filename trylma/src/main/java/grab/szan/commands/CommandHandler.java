@@ -17,21 +17,8 @@ public class CommandHandler {
 
     @Autowired
     public CommandHandler(List<Command> commands) {
-        for (Command c : commands) {
-            String simpleName = c.getClass().getSimpleName().toLowerCase();
-            if (simpleName.contains("creategame")) {
-                commandMap.put("create", c);
-            } else if (simpleName.contains("joingame")) {
-                commandMap.put("join", c);
-            } else if (simpleName.contains("move")) {
-                commandMap.put("move", c);
-            } else if (simpleName.contains("startgame")) {
-                commandMap.put("start", c);
-            } else if (simpleName.contains("setnick")) {
-                commandMap.put("nick", c);
-            } else if (simpleName.contains("pass")) {
-                commandMap.put("pass", c);
-            }
+        for (Command command : commands) {
+            commandMap.put(command.getName(), command);
         }
     }
 

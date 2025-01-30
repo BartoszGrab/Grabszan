@@ -34,6 +34,15 @@ public class MenuController implements Controller {
         }
     }
 
+    @FXML
+    private void onReplayGame() {
+        try {
+            ViewManager.showChooseReplayView();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     /**
      * Called when the user selects "Exit".
      * Exits the application.

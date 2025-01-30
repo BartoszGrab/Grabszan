@@ -12,5 +12,10 @@ public class StartGameCommand implements Command{
         //TODO w tej wersji kazdy gracz moze wyslac tą komende, chcemy aby tylko osoba która utowrzyła gre mogła ją zacząć
         player.getActiveGame().startGame();
     }
+
+    @Override
+    public String getName() {
+        return "start";
+    }
     
 }

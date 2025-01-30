@@ -35,8 +35,9 @@ public abstract class Board {
      * @param i - index
      * @return Color assigned to corner i
      */
-    public Color getColor(int i){
+    public Color getColor(int i) {
         return colorMap.getOrDefault(i, Color.BLACK);
     }
 
+    public abstract void initializePieces(int numOfPlayers);
 }
